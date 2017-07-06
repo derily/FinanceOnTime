@@ -24,21 +24,22 @@ namespace OnTime.AdminUI.Controllers
             //string[] _order = pagination.sidx.Split(',');
             int totalRows = db.WeChatAccounts.Count();
             pagination.records = totalRows;
-            ViewPagerModel<WeChatAccount> list = new ViewPagerModel<WeChatAccount>();
-            list.rows = db.WeChatAccounts.OrderBy(t => t.NickName).Skip(pagination.rows * (pagination.page - 1))
-                .Take(pagination.rows).ToList();
-            list.records =totalRows;
-            list.total = pagination.total;
-            list.page = pagination.page;
-            //{
-            //    rows = db.WeChatAccounts.OrderBy(t => t.NickName).Skip(pagination.rows * (pagination.page - 1))
-            //        .Take(pagination.rows).ToList(),
-            //    records = db.WeChatAccounts.Count(),
-            //    total = pagination.total,
-            //    page = pagination.page
-
-            //};
+            ViewPagerModel<WeChatAccount> list = new ViewPagerModel<WeChatAccount>() {
+                rows = db.WeChatAccounts.OrderBy(t => t.NickName).Skip(pagination.rows * (pagination.page - 1))
+                        .Take(pagination.rows).ToList(),
+                records = totalRows,
+                total = pagination.total,
+                page = pagination.page
+            };
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Save(WeChatAccount account)
+        {
+
+            db.Entry(account).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return Json("{code:'ok',message:'everything is ok.'}");
         }
     }
 }

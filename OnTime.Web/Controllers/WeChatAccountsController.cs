@@ -60,7 +60,7 @@ namespace OnTime.Web.Controllers
         }
 
         // GET: WeChatAccounts/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(Guid id)
         {
             if (id == null)
             {

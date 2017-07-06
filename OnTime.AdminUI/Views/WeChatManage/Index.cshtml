@@ -14,11 +14,61 @@
             </div>
         </div>
     </div>
+
+    <!--modal edit-->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" data-async id="editForm" class="form-horizontal" method="post" action="@Url.Action("Save")">
+                        <input type="hidden" id="Id" name="Id"/>
+                        <div class="form-group">
+                            <label for="NickName" class="col-xs-2 control-label">昵称</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" id="NickName" name="NickName" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="AccountId" class="col-xs-2 control-label">微信号</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" id="AccountId" name="AccountId" type="text" readonly="readonly" />
+                            </div>
+                        </div>
+                    </form>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" onclick="submitForm()" >Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
-
+    var $grid = $('#jqGrid');
     $(document).ready(function () {
+        //edit modal submit event
+        $('#editForm').on('submit', function (event) {
+            alert("ok");
+            var $form = $(this);
+            var $target = $($form.attr('data-target'));
+
+            $.ajax({
+                type: $form.attr('method'),
+                url: $form.attr('action'),
+                data: $form.serialize(),
+                success: function (data, status) {
+                    $target.modal('hide');
+                }
+            });
+            event.preventDefault();
+        });
 
         $("#jqGrid").jqGrid({
             url: '@Url.Action("GetList")',
@@ -26,15 +76,54 @@
             styleUI : 'Bootstrap',
             datatype: "json",
             colModel: [
-                { label: '昵称', name: 'NickName', key: true },
+                { label: '主键', name: 'Id', hidden: true },
+                { label: '昵称', name: 'NickName', key: false },
                 { label: '微信号', name: 'AccountId' },
                 { label: '二维码', name: 'BarCode' },
-                { label: '是否有效', name: 'Valid' } 
+                { label: '是否有效', name: 'Valid' },
+                {
+                    label: '操作', name: '', formatter: function(cellvalue,options,rowObject){
+                        return '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-id="'+options.rowId+'">编辑</button>'
+                    }}
             ],
+            onSelectRow: function (id, or) {
+               // alert(id);
+            },
             viewrecords: true,
+            autowidth:true,
             height: 250,
-            rowNum: 20,
+            rowNum: 10,
             pager: "#jqGridPager"
         });
+
+        
+
     });
+
+    function submitForm() {
+        $('#editForm').submit();
+    }
+
+    //$(window).on("resize", function () {
+    //   newWidth = $grid.closest(".ui-jqgrid").parent().width();
+    //    $grid.jqGrid("setGridWidth", newWidth, true);
+    //});
+
+    $('#editModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var rowId = button.data('id') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var rowdata = $grid.jqGrid('getRowData', rowId);
+        var modal = $(this)
+        modal.find('#Id').val(rowdata.Id);
+        modal.find('#NickName').val(rowdata.NickName);
+        modal.find('#AccountId').val(rowdata.AccountId);
+
+        //modal.find('.modal-body input').val(recipient)
+    });
+    function edit() {
+        var rowdata=$grid.jqGrid('getRowData', $grid.jqGrid('getGridParam', 'selrow'));
+        console.log(rowdata);
+    }
 </script>
