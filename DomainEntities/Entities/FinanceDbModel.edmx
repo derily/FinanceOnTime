@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FinanceDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="FinanceDbModelStoreContainer">
+    <EntitySet Name="ArticleSet" EntityType="FinanceDbModel.Store.ArticleSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EventSet" EntityType="FinanceDbModel.Store.EventSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IndexSet" EntityType="FinanceDbModel.Store.IndexSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IndexDataSet" EntityType="FinanceDbModel.Store.IndexDataSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MessageSet" EntityType="FinanceDbModel.Store.MessageSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GoodsSet" EntityType="FinanceDbModel.Store.GoodsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DictionarySet" EntityType="FinanceDbModel.Store.DictionarySet" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="ArticleSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Source" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Keyword" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Tags" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Focused" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Recommended" Type="bit" Nullable="false" />
+    <Property Name="PagePosition" Type="int" Nullable="false" />
+    <Property Name="Enabled" Type="bit" Nullable="false" />
+    <Property Name="Author" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PraiseNum" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ViewNum" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CoverImagePath" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreateTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreateUserId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RelateProductId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CategoryId" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EventSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IndexSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IndexDataSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MessageSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GoodsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DictionarySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="FinanceDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="FinanceDbModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Finance_Article" EntityType="FinanceDbModel.Article" />
+          <EntitySet Name="Finance_Event" EntityType="FinanceDbModel.Event" />
+          <EntitySet Name="Finance_Index" EntityType="FinanceDbModel.Index" />
+          <EntitySet Name="Finance_IndexData" EntityType="FinanceDbModel.IndexData" />
+          <EntitySet Name="Finance_Message" EntityType="FinanceDbModel.Message" />
+          <EntitySet Name="Finance_Goods" EntityType="FinanceDbModel.Goods" />
+          <EntitySet Name="DictionarySet" EntityType="FinanceDbModel.Dictionary" />
+        </EntityContainer>
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" />
+          <Property Name="Content" Type="String" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Source" Type="String" Nullable="false" />
+          <Property Name="Keyword" Type="String" Nullable="false" />
+          <Property Name="Tags" Type="String" Nullable="false" />
+          <Property Name="Focused" Type="String" Nullable="false" />
+          <Property Name="Recommended" Type="Boolean" Nullable="false" >
+            <Documentation>
+              <Summary>是否推荐</Summary>
+            </Documentation>
+          </Property>
+          <Property Name="PagePosition" Type="FinanceDbModel.ArticlePosition" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Author" Type="String" Nullable="false" />
+          <Property Name="PraiseNum" Type="Int32" Nullable="false" />
+          <Property Name="ViewNum" Type="String" Nullable="false" />
+          <Property Name="CoverImagePath" Type="String" Nullable="false" />
+          <Property Name="CreateTime" Type="String" Nullable="false" />
+          <Property Name="CreateUserId" Type="String" Nullable="false" />
+          <Property Name="RelateProductId" Type="String" Nullable="false" />
+          <Property Name="CategoryId" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Index">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="IndexData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Goods">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Dictionary">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EnumType Name="ArticlePosition">
+          <Member Name="Lunbo" Value="1" />
+          <Member Name="Youce" Value="2" />
+        </EnumType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FinanceDbModelStoreContainer" CdmEntityContainer="FinanceDbModelContainer">
+    <EntitySetMapping Name="Finance_Article">
+      <EntityTypeMapping TypeName="IsTypeOf(FinanceDbModel.Article)">
+        <MappingFragment StoreEntitySet="ArticleSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Source" ColumnName="Source" />
+          <ScalarProperty Name="Keyword" ColumnName="Keyword" />
+          <ScalarProperty Name="Tags" ColumnName="Tags" />
+          <ScalarProperty Name="Focused" ColumnName="Focused" />
+          <ScalarProperty Name="Recommended" ColumnName="Recommended" />
+          <ScalarProperty Name="PagePosition" ColumnName="PagePosition" />
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="Author" ColumnName="Author" />
+          <ScalarProperty Name="PraiseNum" ColumnName="PraiseNum" />
+          <ScalarProperty Name="ViewNum" ColumnName="ViewNum" />
+          <ScalarProperty Name="CoverImagePath" ColumnName="CoverImagePath" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="CreateUserId" ColumnName="CreateUserId" />
+          <ScalarProperty Name="RelateProductId" ColumnName="RelateProductId" />
+          <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Finance_Event">
+      <EntityTypeMapping TypeName="IsTypeOf(FinanceDbModel.Event)">
+        <MappingFragment StoreEntitySet="EventSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Finance_Index">
+      <EntityTypeMapping TypeName="IsTypeOf(FinanceDbModel.Index)">
+        <MappingFragment StoreEntitySet="IndexSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Finance_IndexData">
+      <EntityTypeMapping TypeName="IsTypeOf(FinanceDbModel.IndexData)">
+        <MappingFragment StoreEntitySet="IndexDataSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Finance_Message">
+      <EntityTypeMapping TypeName="IsTypeOf(FinanceDbModel.Message)">
+        <MappingFragment StoreEntitySet="MessageSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Finance_Goods">
+      <EntityTypeMapping TypeName="IsTypeOf(FinanceDbModel.Goods)">
+        <MappingFragment StoreEntitySet="GoodsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DictionarySet">
+      <EntityTypeMapping TypeName="IsTypeOf(FinanceDbModel.Dictionary)">
+        <MappingFragment StoreEntitySet="DictionarySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

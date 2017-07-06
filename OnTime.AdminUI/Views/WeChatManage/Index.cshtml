@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "微信账号维护";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <h2>微信账号维护-列表页面</h2>
+        <div class="col-lg-12">
+            <div>
+                <table id="jqGrid" style="width: 100%"></table>
+                <div id="jqGridPager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#jqGrid").jqGrid({
+            url: '@Url.Action("GetList")',
+            mtype: "GET",
+            styleUI : 'Bootstrap',
+            datatype: "json",
+            colModel: [
+                { label: '昵称', name: 'NickName', key: true },
+                { label: '微信号', name: 'AccountId' },
+                { label: '二维码', name: 'BarCode' },
+                { label: '是否有效', name: 'Valid' } 
+            ],
+            viewrecords: true,
+            height: 250,
+            rowNum: 20,
+            pager: "#jqGridPager"
+        });
+    });
+</script>
