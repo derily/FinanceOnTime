@@ -3,12 +3,34 @@
     ViewBag.Title = "微信账号维护";
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
 
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 100px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        outline: none;
+        background: white;
+        cursor: inherit;
+        display: block;
+    }
+</style>
 <div id="page-wrapper">
     <div class="row">
         <h2>微信账号维护-列表页面</h2>
         <div class="col-lg-12">
             <div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-id="0">新增</button>
                 <table id="jqGrid" style="width: 100%"></table>
                 <div id="jqGridPager"></div>
             </div>
@@ -17,11 +39,13 @@
 
     <!--modal edit-->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog modal-lg" style="width: 500px;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body">
                     <form role="form" data-async id="editForm" class="form-horizontal" method="post" action="@Url.Action("Save")">
@@ -29,21 +53,40 @@
                         <div class="form-group">
                             <label for="NickName" class="col-xs-2 control-label">昵称</label>
                             <div class="col-xs-10">
-                                <input class="form-control" id="NickName" name="NickName" type="text" />
+                                <input class="form-control" id="NickName" name="NickName" type="text"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="AccountId" class="col-xs-2 control-label">微信号</label>
                             <div class="col-xs-10">
-                                <input class="form-control" id="AccountId" name="AccountId" type="text" readonly="readonly" />
+                                <input class="form-control" id="AccountId" name="AccountId" type="text"/>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="uploadimg" class="col-xs-2 control-label">二维码图片</label>
+                            <div class="col-xs-10">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <span class="btn btn-default btn-file">
+                                            浏览...<input type="file" id="uploadimg"/>
+                                        </span>
+                                    </span>
+                                    <input type="text" id="BarCode" name="BarCode" class="form-control" readonly/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-10 col-xs-offset-2">
+                                <img id="img-preview" style="max-width: 280px; max-height: 280px;" />
+                            </div>
+                        </div>
+
                     </form>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" onclick="submitForm()" >Save changes</button>
+                    <button type="submit" class="btn btn-primary" onclick="submitForm()">Save changes</button>
                 </div>
             </div>
         </div>
@@ -52,28 +95,87 @@
 
 <script type="text/javascript">
     var $grid = $('#jqGrid');
-    $(document).ready(function () {
-        //edit modal submit event
-        $('#editForm').on('submit', function (event) {
-            alert("ok");
-            var $form = $(this);
-            var $target = $($form.attr('data-target'));
-
-            $.ajax({
-                type: $form.attr('method'),
-                url: $form.attr('action'),
-                data: $form.serialize(),
-                success: function (data, status) {
-                    $target.modal('hide');
-                }
+    $(document).ready(function() {
+        //file select upload
+        $(document).on('change',
+            '.btn-file :file',
+            function() {
+                var input = $(this),
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [label]);
             });
-            event.preventDefault();
+
+        $('.btn-file :file').on('fileselect',
+            function(event, label) {
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#img-preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#uploadimg").change(function () {
+            readURL(this);
+            if ($(this).val() != '') {
+                var formData = new FormData();
+                formData.append('BarCodeImg', $(this)[0].files[0]);
+                $.ajax({
+                    url: '@Url.Action("UploadCodeImage")',
+                    type: 'POST',
+                    data: formData,
+                    success: function(r) {
+                        if (r.success) {
+                            $('#BarCode').val(r.path);
+                        }
+                    },
+                    cache: false,
+                    processData: false,
+                    contentType: false
+                });
+            }
         });
+
+
+        //edit modal submit event
+        $('#editForm').on('submit',
+            function(event) {
+                var $form = $(this);
+                var $target = $('#editModal');
+
+                $.ajax({
+                    type: $form.attr('method'),
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    dataType:'json',
+                    success: function (data, status) {
+                        if (data.code == "ok") {
+                            $target.modal('hide');
+                            $grid.trigger("reloadGrid");
+                        }
+                    }
+                });
+                event.preventDefault();
+            });
 
         $("#jqGrid").jqGrid({
             url: '@Url.Action("GetList")',
             mtype: "GET",
-            styleUI : 'Bootstrap',
+            styleUI: 'Bootstrap',
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'Id', hidden: true },
@@ -82,21 +184,25 @@
                 { label: '二维码', name: 'BarCode' },
                 { label: '是否有效', name: 'Valid' },
                 {
-                    label: '操作', name: '', formatter: function(cellvalue,options,rowObject){
-                        return '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-id="'+options.rowId+'">编辑</button>'
-                    }}
+                    label: '操作',
+                    name: '',
+                    formatter: function(cellvalue, options, rowObject) {
+                        return '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-id="' +
+                            options.rowId +
+                            '">编辑</button>';
+                    }
+                }
             ],
-            onSelectRow: function (id, or) {
-               // alert(id);
+            onSelectRow: function(id, or) {
+                // alert(id);
             },
             viewrecords: true,
-            autowidth:true,
+            autowidth: true,
             height: 250,
             rowNum: 10,
             pager: "#jqGridPager"
         });
 
-        
 
     });
 
@@ -109,21 +215,41 @@
     //    $grid.jqGrid("setGridWidth", newWidth, true);
     //});
 
-    $('#editModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var rowId = button.data('id') // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var rowdata = $grid.jqGrid('getRowData', rowId);
-        var modal = $(this)
-        modal.find('#Id').val(rowdata.Id);
-        modal.find('#NickName').val(rowdata.NickName);
-        modal.find('#AccountId').val(rowdata.AccountId);
+    $('#editModal').on('show.bs.modal',
+        function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var rowId = button.data('id') // Extract info from data-* attributes
+            var modal = $(this)
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            if (rowId != '0') {
+                modal.find('.modal-title').text("编辑微信账号");
+                var rowdata = $grid.jqGrid('getRowData', rowId);
+                modal.find('#Id').val(rowdata.Id);
+                modal.find('#NickName').val(rowdata.NickName);
+                modal.find('#AccountId').val(rowdata.AccountId);
+                modal.find('.input-group input[type=text]').val(rowdata.BarCode);
+                $('#img-preview').attr('src', location.origin + rowdata.BarCode);
+            } else if(rowId=='0') {
+                modal.find('.modal-title').text("新增微信账号");
+            } 
+        });
 
-        //modal.find('.modal-body input').val(recipient)
-    });
+    $('#editModal').on('hidden.bs.modal',
+        function(e) {
+            $(this)
+                .find("input,textarea,select")
+                .val('')
+                .end()
+                .find("input[type=checkbox], input[type=radio]")
+                .prop("checked", "")
+                .end()
+                .find("img#img-preview")
+                .removeAttr('src');
+        });
+
     function edit() {
-        var rowdata=$grid.jqGrid('getRowData', $grid.jqGrid('getGridParam', 'selrow'));
+        var rowdata = $grid.jqGrid('getRowData', $grid.jqGrid('getGridParam', 'selrow'));
         console.log(rowdata);
     }
 </script>

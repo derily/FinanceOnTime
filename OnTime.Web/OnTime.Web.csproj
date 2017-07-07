@@ -156,6 +156,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\WeChatAccountsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -166,10 +167,29 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Default.css" />
+    <Content Include="Content\images\alert-box.png" />
+    <Content Include="Content\images\get.png" />
+    <Content Include="Content\images\get2.png" />
+    <Content Include="Content\images\lcj-zt-01.jpg" />
+    <Content Include="Content\images\lcj-zt-02.jpg" />
+    <Content Include="Content\images\lcj-zt-03.jpg" />
+    <Content Include="Content\images\lcj-zt-04.jpg" />
+    <Content Include="Content\images\lcj-zt-05.jpg" />
+    <Content Include="Content\images\lcj-zt-06.jpg" />
+    <Content Include="Content\images\lcj-zt-07.gif" />
+    <Content Include="Content\images\lcj-zt-07.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Resource\Images\1497260487.jpg" />
+    <Content Include="Resource\Images\1ad596bc609857ef626718c05eec8e4c.jpg" />
+    <Content Include="Resource\Images\643e3fbe1cce98cfb957a016c46cbe05.jpg" />
+    <Content Include="Resource\Images\65d683eda2c86036680f98303611739e.jpg" />
+    <Content Include="Resource\Images\81a03974cf4f75a40d6c200f63eef2bd.jpg" />
+    <Content Include="Resource\Images\bac8cb8c8a6e72897b189b30b24af675.jpg" />
+    <Content Include="Resource\Images\db08a73796e9a449a5f9d06ed5b20136.jpg" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -208,6 +228,7 @@
     <Content Include="Views\WeChatAccounts\Details.cshtml" />
     <Content Include="Views\WeChatAccounts\Edit.cshtml" />
     <Content Include="Views\WeChatAccounts\Index.cshtml" />
+    <Content Include="Views\Default\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

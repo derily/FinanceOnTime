@@ -1,0 +1,42 @@
+﻿ * {
+     margin: 0;
+     padding: 0;
+ }
+ body {
+     min-width: 980px;
+     font-family: "Microsoft Yahei";
+ }
+ .zt-row {
+     width: 100%;
+     text-align: center;
+     background-position: center center;
+     background-repeat: no-repeat;
+ }
+ .codeArea {
+     width: 980px;
+     margin: 0 auto;
+ }
+ .active {
+     transform: scale(1.05);
+ }
+ .alertBox {
+     position: fixed;
+     left: 30px;
+     bottom: 30px;
+     width: 301px;
+     height: 469px;
+     background: url(/Content/images/alert-box.png) no-repeat;
+     animation: mymove 1s ease-in-out alternate infinite;
+ }
+ .text-info {
+     color: #fff;
+     text-align: center;
+     padding-top: 100px;
+ }
+
+ @keyframes mymove
+ {
+     from {bottom:30px;}
+     to {bottom:20px;}
+ }body {
+}

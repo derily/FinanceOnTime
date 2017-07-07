@@ -1,0 +1,82 @@
+﻿@model OnTime.DataLayer.Entities.WeChatAccount
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="~/Content/Default.css" rel="stylesheet" />
+</head>
+<body>
+<div class="zt-row" style="height: 810px; background-image: url(/Content/images/lcj-zt-01.jpg);">
+    <div class="codeArea" style="padding-top: 400px;">
+        <div class="code" style="width: 280px; height: 280px; background-color: #fff; margin-left: 345px;">
+            <img src="@Url.Content(Model.BarCode)" style="width: 280px; height: 280px;"/>
+        </div>
+    </div>
+</div>
+<div class="zt-row" style="height: 610px; background-image: url(/Content/images/lcj-zt-02.jpg);">
+    <div class="codeArea" style="padding-top: 88px;">
+        <img src="~/Content/images/get.png" class="get" alt="">
+        <div class="code-text" style="font-size: 24px; width: 550px; margin: 0 auto;">（或手动添加<span style="color: #ef0125;">微信号：<span>@Model.AccountId</span></span>）</div>
+    </div>
+</div>
+<div class="zt-row" style="height: 870px; background-image: url(/Content/images/lcj-zt-03.jpg);">
+    <div class="codeArea" style="padding-top: 680px;">
+        <img src="~/Content/images/get2.png" class="get" alt="">
+    </div>
+</div>
+<div class="zt-row" style="height: 1020px; background-image: url(/Content/images/lcj-zt-04.jpg);">
+    <div class="codeArea" style="padding-top: 888px;">
+        <img src="~/Content/images/get2.png" class="get" alt="">
+    </div>
+</div>
+<div class="zt-row" style="height: 880px; background-image: url(/Content/images/lcj-zt-05.jpg);"></div>
+<div class="zt-row" style="height: 410px; background-image: url(/Content/images/lcj-zt-06.jpg);">
+    <div class="codeArea" style="padding-top: 70px;">
+        <div class="code" style="width: 260px; height: 260px; background-color: #fff; margin-left: 690px;">
+            <img src="@Url.Content(Model.BarCode)"  style="width: 260px; height: 260px;"/>
+        </div>
+    </div>
+</div>
+<div class="zt-row" style="height: 409px; background-image: url(/Content/images/lcj-zt-07.gif);"></div>
+<div class="alertBox">
+    <div class="codeArea" style="width: 100%; padding-top: 83px;">
+        <div class="code" style="width: 170px; height: 170px; background-color: #fff; margin-left: 66px;">
+            <img src="@Url.Content(Model.BarCode)" style="width: 170px; height: 170px;"/>
+        </div>
+        <div class="text-info">
+            <p>打开微信扫一扫</p>
+            <p>添加微信号：<span class="codeNum">@Model.AccountId</span></p>
+            <p>免费领取《超短线牛股》</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    window.onload = function(){
+        var imgs = document.querySelectorAll('.codeArea img.get');
+        var p = document.querySelectorAll('.code-text');
+        setInterval(function(){
+            [].forEach.call(imgs, function(img){
+                if(img.classList.contains("active")){
+                    img.classList.remove("active");
+                } else {
+                    img.classList.add("active");
+                }
+            });
+            [].forEach.call(p, function(ele){
+                if(ele.classList.contains("active")){
+                    ele.classList.remove("active");
+                } else {
+                    ele.classList.add("active");
+                }
+            });
+        }, 500);
+    }
+</script>
+</body>
+
+</html>
