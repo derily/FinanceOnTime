@@ -16,6 +16,7 @@ namespace OnTime.DataLayer.Entities
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Path { get; set; }
+        public bool Valid { get; set; }
         public PagePosition Position{ get; set; }
     }
 }

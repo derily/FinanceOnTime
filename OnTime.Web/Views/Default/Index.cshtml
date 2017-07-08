@@ -1,5 +1,8 @@
 ﻿@model OnTime.DataLayer.Entities.WeChatAccount
+@using OnTime.DataLayer.Entities
+@using OnTime.DataLayer.Enum
 @{
+    List<PageImage> images = Session["images"] as List<PageImage>;
     Layout = null;
 }
 
@@ -11,38 +14,38 @@
     <link href="~/Content/Default.css" rel="stylesheet" />
 </head>
 <body>
-<div class="zt-row" style="height: 810px; background-image: url(/Content/images/lcj-zt-01.jpg);">
+<div class="zt-row" style="height: 810px; background-image: url(@Url.Content(images.First(t=>t.Position==PagePosition.lcj_zt_01).Path));">
     <div class="codeArea" style="padding-top: 400px;">
         <div class="code" style="width: 280px; height: 280px; background-color: #fff; margin-left: 345px;">
             <img src="@Url.Content(Model.BarCode)" style="width: 280px; height: 280px;"/>
         </div>
     </div>
 </div>
-<div class="zt-row" style="height: 610px; background-image: url(/Content/images/lcj-zt-02.jpg);">
+<div class="zt-row" style="height: 610px; background-image: url(@Url.Content(images.First(t=>t.Position==PagePosition.lcj_zt_02).Path));">
     <div class="codeArea" style="padding-top: 88px;">
         <img src="~/Content/images/get.png" class="get" alt="">
         <div class="code-text" style="font-size: 24px; width: 550px; margin: 0 auto;">（或手动添加<span style="color: #ef0125;">微信号：<span>@Model.AccountId</span></span>）</div>
     </div>
 </div>
-<div class="zt-row" style="height: 870px; background-image: url(/Content/images/lcj-zt-03.jpg);">
+<div class="zt-row" style="background-image: url(@Url.Content(images.First(t=>t.Position==PagePosition.lcj_zt_03).Path));">
     <div class="codeArea" style="padding-top: 680px;">
         <img src="~/Content/images/get2.png" class="get" alt="">
     </div>
 </div>
-<div class="zt-row" style="height: 1020px; background-image: url(/Content/images/lcj-zt-04.jpg);">
+<div class="zt-row" style=" background-image: url(@Url.Content(images.First(t=>t.Position==PagePosition.lcj_zt_04).Path));">
     <div class="codeArea" style="padding-top: 888px;">
         <img src="~/Content/images/get2.png" class="get" alt="">
     </div>
 </div>
-<div class="zt-row" style="height: 880px; background-image: url(/Content/images/lcj-zt-05.jpg);"></div>
-<div class="zt-row" style="height: 410px; background-image: url(/Content/images/lcj-zt-06.jpg);">
+<div class="zt-row" style="height: 880px; background-image: url(@Url.Content(images.First(t=>t.Position==PagePosition.lcj_zt_05).Path));"></div>
+<div class="zt-row" style="height: 410px; background-image: url(@Url.Content(images.First(t=>t.Position==PagePosition.lcj_zt_06).Path));">
     <div class="codeArea" style="padding-top: 70px;">
         <div class="code" style="width: 260px; height: 260px; background-color: #fff; margin-left: 690px;">
             <img src="@Url.Content(Model.BarCode)"  style="width: 260px; height: 260px;"/>
         </div>
     </div>
 </div>
-<div class="zt-row" style="height: 409px; background-image: url(/Content/images/lcj-zt-07.gif);"></div>
+<div class="zt-row" style="height: 409px; background-image: url(@Url.Content(images.First(t=>t.Position==PagePosition.lcj_zt_07).Path));"></div>
 <div class="alertBox">
     <div class="codeArea" style="width: 100%; padding-top: 83px;">
         <div class="code" style="width: 170px; height: 170px; background-color: #fff; margin-left: 66px;">
