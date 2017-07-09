@@ -87,10 +87,13 @@
         .radio label input[type="radio"]:disabled + .cr {
             opacity: .5;
         }
+        .btn-flat{
+            border:none;
+            box-shadow:none;
+        }
 </style>
 <div id="page-wrapper">
     <div class="row">
-        <h2>页面图片维护-列表页面</h2>
         <div class="col-lg-12">
             <div>
                 <table id="jqGrid" style="width: 100%"></table>
@@ -265,12 +268,15 @@
                     label: '操作',
                     name: '',
                     formatter: function (cellvalue, options, rowObject) {
-                        return '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-id="' +
+                        return '<button type="button" class="btn-flat btn-default" data-toggle="modal" data-target="#editModal" data-id="' +
                             options.rowId +
-                            '">编辑</button>';
+                            '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                     }
                 }
             ],
+            beforeSelectRow: function (rowid, e) {
+                return false;
+            },
             viewrecords: true,
             shrinkToFit: true,
             autowidth:true,
