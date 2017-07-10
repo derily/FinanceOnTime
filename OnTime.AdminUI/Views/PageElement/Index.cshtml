@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
-<link rel="stylesheet" href="~/Content/bootstrap-select.min.css" />
+<link rel="stylesheet" href="~/Content/bootstrap-select.min.css"/>
 <script src="~/Scripts/bootstrap-select.min.js"></script>
 <script src="~/Scripts/i18n/defaults-zh_CN.min.js"></script>
 <style>
@@ -12,23 +12,24 @@
         overflow: hidden;
     }
 
-        .btn-file input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            min-width: 100%;
-            min-height: 100%;
-            font-size: 100px;
-            text-align: right;
-            filter: alpha(opacity=0);
-            opacity: 0;
-            outline: none;
-            background: white;
-            cursor: inherit;
-            display: block;
-        }
+    .btn-file input[type=file] {
+        position: absolute;
+        top: 0;
+        right: 0;
+        min-width: 100%;
+        min-height: 100%;
+        font-size: 100px;
+        text-align: right;
+        filter: alpha(opacity=0);
+        opacity: 0;
+        outline: none;
+        background: white;
+        cursor: inherit;
+        display: block;
+    }
 
     /*checkbox style*/
+
     .checkbox label:after,
     .radio label:after {
         content: '';
@@ -48,49 +49,42 @@
         margin-right: .5em;
     }
 
-    .radio .cr {
-        border-radius: 50%;
+    .radio .cr { border-radius: 50%; }
+
+    .checkbox .cr .cr-icon,
+    .radio .cr .cr-icon {
+        position: absolute;
+        font-size: .8em;
+        line-height: 0;
+        top: 50%;
+        left: 20%;
     }
 
-        .checkbox .cr .cr-icon,
-        .radio .cr .cr-icon {
-            position: absolute;
-            font-size: .8em;
-            line-height: 0;
-            top: 50%;
-            left: 20%;
-        }
-
-        .radio .cr .cr-icon {
-            margin-left: 0.04em;
-        }
+    .radio .cr .cr-icon { margin-left: 0.04em; }
 
     .checkbox label input[type="checkbox"],
-    .radio label input[type="radio"] {
-        display: none;
+    .radio label input[type="radio"] { display: none; }
+
+    .checkbox label input[type="checkbox"] + .cr > .cr-icon,
+    .radio label input[type="radio"] + .cr > .cr-icon {
+        transform: scale(3) rotateZ(-20deg);
+        opacity: 0;
+        transition: all .3s ease-in;
     }
 
-        .checkbox label input[type="checkbox"] + .cr > .cr-icon,
-        .radio label input[type="radio"] + .cr > .cr-icon {
-            transform: scale(3) rotateZ(-20deg);
-            opacity: 0;
-            transition: all .3s ease-in;
-        }
+    .checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+    .radio label input[type="radio"]:checked + .cr > .cr-icon {
+        transform: scale(1) rotateZ(0deg);
+        opacity: 1;
+    }
 
-        .checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
-        .radio label input[type="radio"]:checked + .cr > .cr-icon {
-            transform: scale(1) rotateZ(0deg);
-            opacity: 1;
-        }
+    .checkbox label input[type="checkbox"]:disabled + .cr,
+    .radio label input[type="radio"]:disabled + .cr { opacity: .5; }
 
-        .checkbox label input[type="checkbox"]:disabled + .cr,
-        .radio label input[type="radio"]:disabled + .cr {
-            opacity: .5;
-        }
-        .btn-flat{
-            border:none;
-            box-shadow:none;
-        }
+    .btn-flat {
+        border: none;
+        box-shadow: none;
+    }
 </style>
 <div id="page-wrapper">
     <div class="row">
@@ -113,11 +107,11 @@
                 </div>
                 <div class="modal-body">
                     <form role="form" data-async id="editForm" class="form-horizontal" method="post" action="@Url.Action("Save")">
-                        <input type="hidden" id="Id" name="Id" />
+                        <input type="hidden" id="Id" name="Id"/>
                         <div class="form-group">
                             <label for="NickName" class="col-xs-2 control-label">图片名称</label>
                             <div class="col-xs-10">
-                                <input class="form-control" id="Title" name="Title" type="text" />
+                                <input class="form-control" id="Title" name="Title" type="text"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -134,7 +128,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <div class="col-xs-offset-2 col-xs-10">
                                 <div class="checkbox">
                                     <label style="font-size: 1.2em;font-weight:600">
@@ -145,23 +139,23 @@
                                     <input type="hidden" value="false" name="Valid" />
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="form-group">
                             <label for="uploadimg" class="col-xs-2 control-label">图片上传</label>
                             <div class="col-xs-10">
                                 <div class="input-group">
                                     <span class="input-group-btn">
                                         <span class="btn btn-default btn-file">
-                                            浏览...<input type="file" id="uploadimg" />
+                                            浏览...<input type="file" id="uploadimg"/>
                                         </span>
                                     </span>
-                                    <input type="text" id="Path" name="Path" class="form-control" readonly />
+                                    <input type="text" id="Path" name="Path" class="form-control" readonly/>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-xs-10 col-xs-offset-2">
-                                <img id="img-preview" style="max-width: 400px; max-height: 300px;" />
+                                <img id="img-preview" style="max-width: 400px; max-height: 300px;"/>
                             </div>
                         </div>
                     </form>
@@ -179,8 +173,8 @@
 
 <script>
     var $grid = $('#jqGrid');
-    $(document).ready(function () {
-         $(document).on('change',
+    $(document).ready(function() {
+        $(document).on('change',
             '.btn-file :file',
             function() {
                 var input = $(this),
@@ -212,7 +206,7 @@
             }
         }
 
-        $("#uploadimg").change(function () {
+        $("#uploadimg").change(function() {
             readURL(this);
             if ($(this).val() != '') {
                 var formData = new FormData();
@@ -234,7 +228,7 @@
         });
 
         $('#editForm').on('submit',
-            function (event) {
+            function(event) {
                 var $form = $(this);
                 var $target = $('#editModal');
 
@@ -243,7 +237,7 @@
                     url: $form.attr('action'),
                     data: $form.serialize(),
                     dataType: 'json',
-                    success: function (data, status) {
+                    success: function(data, status) {
                         if (data.code == "ok") {
                             $target.modal('hide');
                             $grid.trigger("reloadGrid");
@@ -260,26 +254,34 @@
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'Id', hidden: true },
-                { label: '名称', name: 'Title'},
-                {label:'位置',name:'Position'},
+                { label: '名称', name: 'Title' },
+                { label: '位置', name: 'Position' },
                 { label: '路径', name: 'Path' },
-                { label: '是否有效', name: 'Valid' },
+                {
+                    label: '是否有效',
+                    name: 'Valid',
+                    formatter: function(cellvalue, options, rowObject) {
+                        return cellvalue
+                            ? '<span class="label label-success">有效</span>'
+                            : '<span class="label label-default">无效</span>';
+                    }
+                },
                 {
                     label: '操作',
                     name: '',
-                    formatter: function (cellvalue, options, rowObject) {
+                    formatter: function(cellvalue, options, rowObject) {
                         return '<button type="button" class="btn-flat btn-default" data-toggle="modal" data-target="#editModal" data-id="' +
                             options.rowId +
                             '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                     }
                 }
             ],
-            beforeSelectRow: function (rowid, e) {
+            beforeSelectRow: function(rowid, e) {
                 return false;
             },
             viewrecords: true,
             shrinkToFit: true,
-            autowidth:true,
+            autowidth: true,
             height: '100 %',
             rowNum: 10,
             pager: "#jqGridPager"
@@ -291,7 +293,7 @@
     }
 
     $('#editModal').on('show.bs.modal',
-        function (event) {
+        function(event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var rowId = button.data('id') // Extract info from data-* attributes
             var modal = $(this)
@@ -316,7 +318,7 @@
         });
 
     $('#editModal').on('hidden.bs.modal',
-        function (e) {
+        function(e) {
             $(this)
                 .find("input,textarea,select")
                 .val('')

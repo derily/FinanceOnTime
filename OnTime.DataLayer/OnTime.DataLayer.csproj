@@ -52,15 +52,6 @@
     <Compile Include="Entities\PageImage.cs" />
     <Compile Include="Entities\WeChatAccount.cs" />
     <Compile Include="Enum\PagePosition.cs" />
-    <Compile Include="Migrations\201707060646194_InitialCreate.cs" />
-    <Compile Include="Migrations\201707060646194_InitialCreate.Designer.cs">
-      <DependentUpon>201707060646194_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201707080959572_AddValidFieldForPageImages.cs" />
-    <Compile Include="Migrations\201707080959572_AddValidFieldForPageImages.Designer.cs">
-      <DependentUpon>201707080959572_AddValidFieldForPageImages.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="OnTimeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -70,14 +61,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707060646194_InitialCreate.resx">
-      <DependentUpon>201707060646194_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707080959572_AddValidFieldForPageImages.resx">
-      <DependentUpon>201707080959572_AddValidFieldForPageImages.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace OnTime.AdminUI.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public ActionResult Index()

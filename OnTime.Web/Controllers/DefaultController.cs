@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using OnTime.DataLayer;
 using OnTime.DataLayer.Entities;
+using System.Configuration;
 
 namespace OnTime.Web.Controllers
 {
@@ -15,10 +16,11 @@ namespace OnTime.Web.Controllers
         public ActionResult Index()
         {
             int totalRows = db.WeChatAccounts.Count();
-            int index=new Random().Next(totalRows);
+           // int index=new Random().Next(totalRows);
             List<PageImage> images = db.Images.ToList();
             Session["images"] = images;
-            return View(db.WeChatAccounts.OrderBy(c=>Guid.NewGuid()).Skip(index).FirstOrDefault());
+            ViewBag.ResourceRootPath= ConfigurationManager.AppSettings["admindomain"];
+            return View(db.WeChatAccounts.Where(t=>t.Valid==true).OrderBy(c=>Guid.NewGuid()).FirstOrDefault());
            // return View(model);
         }
     }

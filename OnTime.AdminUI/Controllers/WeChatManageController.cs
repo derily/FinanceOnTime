@@ -12,6 +12,7 @@ using OnTime.DataLayer.Entities;
 
 namespace OnTime.AdminUI.Controllers
 {
+    [Authorize]
     public class WeChatManageController : Controller
     {
         private OnTimeContext db = new OnTimeContext();

@@ -3,6 +3,7 @@
     ViewBag.Title = "微信账号维护";
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
+<link rel="stylesheet" href="~/Content/Site.css"/>
 <style>
     .btn-file {
         position: relative;
@@ -88,6 +89,19 @@
         border: none;
         box-shadow: none;
     }
+    #loading {
+        position: absolute;
+        width: 100%;
+        height:100%;
+        left: 0;
+        top: 0;
+        display: none;
+        align-items: center;
+        background-color: #000;
+        z-index: 999;
+        opacity: 0.5;
+    }
+    
 </style>
 <div id="page-wrapper">
     <div class="row">
@@ -139,7 +153,7 @@
                         </div>
                             
 
-                            @*<label for="Valid" class="col-xs-2 control-label">是否有效</label>
+                        @*<label for="Valid" class="col-xs-2 control-label">是否有效</label>
                             <div class="col-xs-2">
                                 <input id="Valid" name="Valid" type="checkbox" value="true"/>
                                 <input type="hidden" value="false" name="Valid" />
@@ -172,6 +186,10 @@
                 </div>
             </div>
         </div>
+    </div>
+    
+    <div id="loading-overlay" style="display:none">
+       <div class="loading-icon"></div>
     </div>
 </div>
 
@@ -220,7 +238,11 @@
                     url: '@Url.Action("UploadCodeImage")',
                     type: 'POST',
                     data: formData,
-                    success: function(r) {
+                    beforeSend:function() {
+                        $("#loading-overlay").show();
+                    },
+                    success: function (r) {
+                        $("#loading-overlay").hide();
                         if (r.success) {
                             $('#BarCode').val(r.path);
                         }
@@ -266,7 +288,7 @@
                 { label: '二维码', name: 'BarCode' },
                 {
                     label: '是否有效', name: 'Valid', formatter: function (cellvalue, options, rowObject) {
-                        return cellvalue ? '<span class="label label-success">可用</span>' : '<span class="label label-default">不可用</span>';
+                        return cellvalue ? '<span class="label label-success">有效</span>' : '<span class="label label-default">无效</span>';
                     }
                 },
                 {
@@ -275,9 +297,7 @@
                     formatter: function(cellvalue, options, rowObject) {
                         return '<button type="button" class="btn-flat btn-default" data-toggle="modal" data-target="#editModal" data-id="' +
                             options.rowId +
-                            '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>' +
-                            '<button type="button" class="btn-flat btn-default" data-toggle="modal" data-target="#editModal" data-id="' +
-                            '"><i class="fa fa-times" aria-hidden="true"></i></button>';
+                            '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
                     }
                 }
             ],

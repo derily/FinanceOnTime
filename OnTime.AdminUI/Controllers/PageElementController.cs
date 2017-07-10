@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace OnTime.AdminUI.Controllers
 {
+    [Authorize]
     public class PageElementController : Controller
     {
         private OnTimeContext db = new OnTimeContext();
