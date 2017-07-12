@@ -23,5 +23,32 @@ namespace OnTime.Web.Controllers
             return View(db.WeChatAccounts.Where(t=>t.Valid==true).OrderBy(c=>Guid.NewGuid()).FirstOrDefault());
            // return View(model);
         }
+
+        [HttpGet]
+        public ActionResult DiagnosisStock()
+        {
+            if (Request.Browser.IsMobileDevice)
+            {
+                return View("DiagnosisStockMobile");
+            }
+            else
+            {
+                return View("DiagnosisStock");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult DiagnosisStock(string phone,string code)
+        {
+            //db.Customers.Any(t=>t.PhoneNum==phone)
+            db.Customers.Add(new Customer()
+            {
+                PhoneNum = phone,
+                StockCode=code,
+                CreateTime = DateTime.Now
+            });
+            db.SaveChanges();
+            return new EmptyResult();
+        }
     }
 }

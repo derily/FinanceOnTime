@@ -49,9 +49,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\PageImage.cs" />
     <Compile Include="Entities\WeChatAccount.cs" />
     <Compile Include="Enum\PagePosition.cs" />
+    <Compile Include="Migrations\201707100239055_InitialCreate.cs" />
+    <Compile Include="Migrations\201707100239055_InitialCreate.Designer.cs">
+      <DependentUpon>201707100239055_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707110444338_AddCustomerTable.cs" />
+    <Compile Include="Migrations\201707110444338_AddCustomerTable.Designer.cs">
+      <DependentUpon>201707110444338_AddCustomerTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707110548383_AddStockCodeFieldForCustomer.cs" />
+    <Compile Include="Migrations\201707110548383_AddStockCodeFieldForCustomer.Designer.cs">
+      <DependentUpon>201707110548383_AddStockCodeFieldForCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="OnTimeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,6 +75,17 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201707100239055_InitialCreate.resx">
+      <DependentUpon>201707100239055_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707110444338_AddCustomerTable.resx">
+      <DependentUpon>201707110444338_AddCustomerTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707110548383_AddStockCodeFieldForCustomer.resx">
+      <DependentUpon>201707110548383_AddStockCodeFieldForCustomer.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

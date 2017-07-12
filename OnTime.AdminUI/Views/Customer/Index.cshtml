@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<link rel="stylesheet" href="~/Content/Site.css"/>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div>
+                <table id="jqGrid" style="width: 100%"></table>
+                <div id="jqGridPager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var $grid = $('#jqGrid');
+    $(document).ready(function() {
+        $("#jqGrid").jqGrid({
+            url: '@Url.Action("GetList")',
+            mtype: "GET",
+            styleUI: 'Bootstrap',
+            datatype: "json",
+            colModel: [
+                { label: '主键', name: 'Id', hidden: true },
+                { label: '手机号码', name: 'PhoneNum' },
+                { label: '股票代码', name: 'StockCode' }
+            ],
+            beforeSelectRow: function (rowid, e) {
+                return false;
+            },
+            viewrecords: true,
+            autowidth: true,
+            height: 250,
+            rowNum: 10,
+            pager: "#jqGridPager"
+        });
+    });
+</script>
+

@@ -1,0 +1,327 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>诊断个股</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            min-width: 980px;
+            font-family: "Microsoft Yahei";
+            overflow-x: hidden;
+        }
+        img {
+            border: none;
+        }
+        input {
+            box-sizing: border-box;
+            outline: none;
+            border: none;
+        }
+        .container {
+            position: relative;
+            width: 980px;
+            margin: 0 auto;
+        }
+        .main-bg {
+            width: 1920px;
+            margin-left: -470px;
+        }
+        .floatArea {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            margin-left: -490px;
+            width: 980px;
+        }
+        .float-bg {
+            width: 1920px;
+            margin-left: -470px;
+        }
+
+        .stock-input, .phone-input {
+            font-size: 18px;
+            padding: 0 10px;
+            color: #848484;
+            border: 1px solid #fff;
+        }
+        .stock-input:focus {
+            border: 1px solid #65aad0;
+        }
+
+        .float-box {
+            position: absolute;
+            top: 50px;
+            left: 206px;
+            width: 576px;
+            height: 75px;
+        }
+        .float-box .stock-input {
+            width: 370px;
+            height: 75px;
+        }
+        .float-box .stock-link {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 198px;
+            height: 75px;
+        }
+		
+        .active-box {
+            position: absolute;
+            top: 314px;
+            left: 667px;
+            width: 428px;
+            height: 432px;
+            box-sizing: border-box;
+            padding: 160px 45px 0;
+        }
+        .active-box .stock-input {
+            width: 338px;
+            height: 65px;
+            border-radius: 18px;
+        }
+        .stock-input.error, .phone-input.error {
+            border-color: #d9534f;
+        }
+        .active-box .stock-link {
+            display: block;
+            margin: 45px auto 0;
+            width: 328px;
+            height: 60px;
+        }
+        .active-box p.error, .float-box p.error {
+            padding-left: 10px;
+            padding-top: 5px;
+            color: #d9534f;
+        }
+
+        .alertArea {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 583px;
+            height: 508px;
+            background: url(/Content/images/form-box.png) no-repeat;
+            transform: scale(0);
+            -ms-transform: scale(0);
+            transition: transform 0.3s;
+        }
+        .alert-box {
+            padding: 160px 66px 0;
+            color: #fff;
+        }
+        .alert-box h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .alert-box p {
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .alert-box p.error {
+            width: 340px;
+            margin: 0 auto;
+            padding-left: 10px;
+            color: #d9534f;
+        }
+        .alert-box .phone-input {
+            display: block;
+            width: 340px;
+            height: 55px;
+            margin: 0 auto;
+        }
+        .alert-box .phone-link {
+            display: block;
+            margin: 25px auto 0;
+            width: 340px;
+            height: 68px;
+        }
+        .success-msg {
+            position: absolute;
+            width: 600px;
+            height: 299px;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            transform: scale(0);
+            -ms-transform: scale(0);
+            transition: transform 0.3s;
+        }
+        .success-msg .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            color: #999;
+        }
+        .success-msg .close-btn:hover {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .mask {
+            position: fixed;
+            display: none;
+            z-index: 999;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="active-box">
+        <form id="stockForm1">
+        <input name="code" class="stock-input" type="text" placeholder="请输入股票代码，例：000001">
+        <a class="stock-link" href="javascript: void(0);"></a>
+        </form>
+    </div>
+    <img class="main-bg" src="~/Content/images/body-bg.gif" alt="" ondragstart="return false;">
+</div>
+<div class="floatArea">
+    <div class="float-box">
+        <form id="stockForm2">
+            <input name="code" class="stock-input" type="text" placeholder="请输入股票代码，例：000001">
+            <a class="stock-link" href="javascript: void(0);"></a>
+        </form>
+    </div>
+    <img class="float-bg" src="~/Content/images/float-bg.gif" alt="" ondragstart="return false;">
+</div>
+<div id="linkBox" class="alertArea">
+    <div class="alert-box">
+        <form id="phoneForm">
+            <h3>你所查询的个股是：<span class="code">601018</span></h3>
+            <p>由于在线诊股人数较多，为确保诊股的准确性，因此诊股数据将以短信的形式直接发送到您的手机中请注意查收！</p>
+            <input class="phone-input" type="text" name="phone" placeholder="请输入你的手机号码" autofocus="autofocus">
+            <a class="phone-link" href="javascript: void(0);"></a>
+        </form>
+    </div>
+    <div class="success-msg">
+        <span class="close-btn">X</span>
+        <img src="~/Content/images/success-msg.jpg" alt="">
+    </div>
+</div>
+<div class="mask"></div>
+</body>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/messages_zh.js"></script>
+<script>
+
+    $(".stock-link").each(function(index, ele){
+        $(ele).on('click', function(){
+            if (!$(this).closest("form").valid()) {
+                return;
+            }
+            var stockCode = $(this).siblings(".stock-input").val();
+            $(".stock-input").val("");
+            $("#linkBox").css({
+                "transform": "scale(1)",
+                "-ms-transform": "scale(1)"
+            });
+            $("#linkBox .code").html(stockCode);
+            $("#linkBox .stock-input").focus();
+            $(".mask").show();
+        })
+    })
+    $(".mask").on('click', function(){
+        $(this).hide();
+        $("#linkBox").css({
+            "transform": "scale(0)",
+            "-ms-transform": "scale(0)"
+        });
+        $(".success-msg").css({
+            "transform": "scale(0)",
+            "-ms-transform": "scale(0)"
+        });
+    })
+
+    $("#stockForm1, #stockForm2").each(function(){
+        $(this).validate({
+            rules: {
+                code: {
+                    required: true,
+                    number: true,
+                    rangelength: [6, 6]
+                }
+            },
+            errorElement: "p",
+            messages: {
+                code: {
+                    required: "请输入股票代码，例：000001",
+                    number: "请输入正确的股票代码",
+                    rangelength: "股票代码长度应为6位"
+                }
+            },
+            debug: true
+        })
+    });
+    $("#phoneForm").validate({
+        rules: {
+            phone: {
+                required: true,
+                isMobile: true
+            }
+        },
+        errorElement: "p",
+        messages: {
+            phone: {
+                required: "请输入你的手机号码",
+                isMobile: "请输入正确的手机号码"
+            }
+        },
+        debug: true
+    });
+    $(".phone-link").on('click', function(){
+        if (!$(this).closest("form").valid()) {
+            return;
+        }
+
+        var codeNum = $("#linkBox .code").html();
+        var phoneNum = $(this).siblings(".phone-input").val();
+
+        $.ajax({
+            url: '@Url.Action("DiagnosisStock")',
+            type: 'POST',
+            data: {phone:phoneNum,code:codeNum},
+            dataType: 'json',
+            success:function(data) {
+                console.log(data);
+            }
+        });
+
+        if(true){
+            $(".success-msg").css({
+                "transform": "scale(1)",
+                "-ms-transform": "scale(1)"
+            });
+        }
+    })
+    
+    $(".close-btn").on('click', function(){
+        $(".success-msg").css({
+            "transform": "scale(0)",
+            "-ms-transform": "scale(0)"
+        });
+    })
+</script>
+</html>

@@ -169,6 +169,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Default.css" />
     <Content Include="Content\images\alert-box.png" />
+    <Content Include="Content\images\body-bg.gif" />
+    <Content Include="Content\images\float-bg.gif" />
+    <Content Include="Content\images\form-box.png" />
     <Content Include="Content\images\get.png" />
     <Content Include="Content\images\get2.png" />
     <Content Include="Content\images\lcj-zt-01.jpg" />
@@ -180,6 +183,9 @@
     <Content Include="Content\images\lcj-zt-07.gif" />
     <Content Include="Content\images\lcj-zt-07.jpg" />
     <Content Include="Content\images\link-box.png" />
+    <Content Include="Content\images\mobile-bg.jpg" />
+    <Content Include="Content\images\mobile-message.png" />
+    <Content Include="Content\images\success-msg.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -207,6 +213,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\messages_zh.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -233,6 +240,8 @@
     <Content Include="Views\WeChatAccounts\Edit.cshtml" />
     <Content Include="Views\WeChatAccounts\Index.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
+    <Content Include="Views\Default\DiagnosisStock.cshtml" />
+    <Content Include="Views\Default\DiagnosisStockMobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -339,15 +339,12 @@
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             if (rowId != '0') {
                 modal.find('.modal-title').text("编辑微信账号");
-                var rowdata = $grid.jqGrid('getRowData', rowId);
+                var rowdata = $grid.jqGrid('getRowData', rowId,true);
                 modal.find('#Id').val(rowdata.Id);
                 modal.find('#NickName').val(rowdata.NickName);
                 modal.find('#AccountId').val(rowdata.AccountId);
-               // console.log($('#Valid').is(':checked'));
-                //console.log('设置为' + rowdata.Valid);
                 var $Valid = modal.find('#Valid')
-               // console.log(rowdata.Valid);
-                var bol = rowdata.Valid == 'true';
+                var bol = $(rowdata.Valid).text() == '有效';
                if (bol) {
                    $Valid.prop('checked', true);
                } else {

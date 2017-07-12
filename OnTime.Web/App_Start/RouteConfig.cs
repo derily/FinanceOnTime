@@ -14,6 +14,15 @@ namespace OnTime.Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "", 
+                url: "index", 
+                defaults: new {controller = "Default", action = "Index"});
+            routes.MapRoute(
+                name: "",
+                url: "diag",
+                defaults: new {controller="Default",action= "DiagnosisStock" }
+            );
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
