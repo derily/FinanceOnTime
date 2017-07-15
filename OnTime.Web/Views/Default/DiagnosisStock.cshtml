@@ -191,7 +191,7 @@
 <div class="container">
     <div class="active-box">
         <form id="stockForm1">
-        <input name="code" class="stock-input" type="text" placeholder="请输入股票代码，例：000001">
+        <input name="code" class="stock-input" type="text" placeholder="请输入股票代码或名称，例：000001">
         <a class="stock-link" href="javascript: void(0);"></a>
         </form>
     </div>
@@ -200,7 +200,7 @@
 <div class="floatArea">
     <div class="float-box">
         <form id="stockForm2">
-            <input name="code" class="stock-input" type="text" placeholder="请输入股票代码，例：000001">
+            <input name="code" class="stock-input" type="text" placeholder="请输入股票代码或名称，例：000001">
             <a class="stock-link" href="javascript: void(0);"></a>
         </form>
     </div>
@@ -267,8 +267,8 @@
             errorElement: "p",
             messages: {
                 code: {
-                    required: "请输入股票代码，例：000001",
-                    number: "请输入正确的股票代码",
+                    required: "请输入股票代码或名称，例：000001",
+                    number: "请输入正确的股票代码或名称",
                     rangelength: "股票代码长度应为6位"
                 }
             },

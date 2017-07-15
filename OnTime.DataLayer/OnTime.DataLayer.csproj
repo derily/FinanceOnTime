@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\PageImage.cs" />
+    <Compile Include="Entities\QQGroup.cs" />
     <Compile Include="Entities\WeChatAccount.cs" />
     <Compile Include="Enum\PagePosition.cs" />
     <Compile Include="Migrations\201707100239055_InitialCreate.cs" />
@@ -64,6 +65,18 @@
     <Compile Include="Migrations\201707110548383_AddStockCodeFieldForCustomer.cs" />
     <Compile Include="Migrations\201707110548383_AddStockCodeFieldForCustomer.Designer.cs">
       <DependentUpon>201707110548383_AddStockCodeFieldForCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707140929364_AddTableQQGroups.cs" />
+    <Compile Include="Migrations\201707140929364_AddTableQQGroups.Designer.cs">
+      <DependentUpon>201707140929364_AddTableQQGroups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707140940111_AddSomeFieldForQQGroups.cs" />
+    <Compile Include="Migrations\201707140940111_AddSomeFieldForQQGroups.Designer.cs">
+      <DependentUpon>201707140940111_AddSomeFieldForQQGroups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707140953167_AddBarCodeFieldForQQGroups.cs" />
+    <Compile Include="Migrations\201707140953167_AddBarCodeFieldForQQGroups.Designer.cs">
+      <DependentUpon>201707140953167_AddBarCodeFieldForQQGroups.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="OnTimeContext.cs" />
@@ -85,6 +98,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707110548383_AddStockCodeFieldForCustomer.resx">
       <DependentUpon>201707110548383_AddStockCodeFieldForCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707140929364_AddTableQQGroups.resx">
+      <DependentUpon>201707140929364_AddTableQQGroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707140940111_AddSomeFieldForQQGroups.resx">
+      <DependentUpon>201707140940111_AddSomeFieldForQQGroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707140953167_AddBarCodeFieldForQQGroups.resx">
+      <DependentUpon>201707140953167_AddBarCodeFieldForQQGroups.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

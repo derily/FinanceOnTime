@@ -200,6 +200,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageElementController.cs" />
+    <Compile Include="Controllers\QQGroupController.cs" />
     <Compile Include="Controllers\WeChatManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -552,6 +553,7 @@
     <Content Include="Views\WeChatManage\Index.cshtml" />
     <Content Include="Views\PageElement\Index.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\QQGroup\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

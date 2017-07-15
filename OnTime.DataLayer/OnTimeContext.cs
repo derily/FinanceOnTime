@@ -18,6 +18,7 @@ namespace OnTime.DataLayer
         public DbSet<PageImage> Images { get; set; }
         public DbSet<WeChatAccount> WeChatAccounts { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public  DbSet<QQGroup> QQGroups { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer<OnTimeContext>(null);

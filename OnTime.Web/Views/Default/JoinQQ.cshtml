@@ -1,0 +1,88 @@
+﻿@model OnTime.DataLayer.Entities.QQGroup
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>加QQ群领取牛股</title>
+    <link rel="stylesheet" href="~/Content/JoinQQ.css"/>
+</head>
+<body>
+<div class="container">	
+    <div class="topActiveArea">
+        <a href="@Model.JoinLink" class="qq-link sm-btn"></a>
+        <a href="@Model.JoinLink" class="qq-link lg-btn"></a>
+    </div>
+    <div class="sliderBox">
+        <ul>
+            <li>
+                <p class="text-t"><span class="code">300248</span><span class="name">新开普</span></p>
+                <p class="text-b"><span class="time">5个交易日</span><span class="profit">收益14.27%</span></p>
+            </li>
+            <li>
+                <p class="text-t"><span class="code">002211</span><span class="name">宏达新材</span></p>
+                <p class="text-b"><span class="time">5个交易日</span><span class="profit">收益12.95%</span></p>
+            </li>
+            <li>
+                <p class="text-t"><span class="code">002161</span><span class="name">远望谷</span></p>
+                <p class="text-b"><span class="time">5个交易日</span><span class="profit">收益10.59%</span></p>
+            </li>
+            <li>
+                <p class="text-t"><span class="code">002708</span><span class="name">光洋股份</span></p>
+                <p class="text-b"><span class="time">5个交易日</span><span class="profit">收益13.90%</span></p>
+            </li>
+            <li>
+                <p class="text-t"><span class="code">000859</span><span class="name">国风塑业</span></p>
+                <p class="text-b"><span class="time">5个交易日</span><span class="profit">收益12.63%</span></p>
+            </li>
+            <li>
+                <p class="text-t"><span class="code">300560</span><span class="name">中富通</span></p>
+                <p class="text-b"><span class="time">5个交易日</span><span class="profit">收益13.05%</span></p>
+            </li>
+            <li>
+                <p class="text-t"><span class="code">300589</span><span class="name">江龙船艇</span></p>
+                <p class="text-b"><span class="time">5个交易日</span><span class="profit">收益12.29%</span></p>
+            </li>
+            <li>
+                <p class="text-t"><span class="code">603993</span><span class="name">洛阳钼业</span></p>
+                <p class="text-b"><span class="time">5个交易日</span><span class="profit">收益15.12%</span></p>
+            </li>
+            <li>
+                <p class="text-t"><span class="code">600259</span><span class="name">光晟有色</span></p>
+                <p class="text-b"><span class="time">5个交易日</span><span class="profit">收益12.26%</span></p>
+            </li>
+        </ul>
+        <a href="javascript: ;" class="btn btn-l"></a>
+        <a href="javascript: ;" class="btn btn-r"></a>
+    </div>
+    <div class="bottomActiveArea">
+        <a href="@Model.JoinLink" class="qq-link md-btn"></a>
+    </div>
+    <img class="main-bg" src="~/Content/images/qq/body-bg.gif" alt="">
+</div>
+<div class="alertBox">
+    <div class="codeArea" style="width: 100%; padding-top: 80px;">
+        <div class="code" style="width: 172px; height: 172px; background-color: #fff; margin-left: 65px;">
+            
+        </div>
+        <div class="text-info">
+            <p>添加QQ群: <span>@Model.AccountId</span></p>
+        </div>
+    </div>
+</div>
+</body>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.roundabout.min.js"></script>
+<script>
+    $('.sliderBox ul').roundabout({
+        btnPrev: ".btn-l", // 右按钮
+        btnNext: ".btn-r", // 左按钮
+        autoplay: true,        // 自动播放
+        autoplayDuration: 3000,// 自动播放的时间
+        autoplayPauseOnHover: true, // 鼠标移入元素内是否自动播放，为true不播放，false还自动播放
+    });
+</script>
+</html>

@@ -24,7 +24,7 @@ namespace OnTime.AdminUI.Controllers
             pagination.records = totalRows;
             ViewPagerModel<Customer> list = new ViewPagerModel<Customer>()
             {
-                rows = db.Customers.OrderBy(t => t.CreateTime).Skip(pagination.rows * (pagination.page - 1))
+                rows = db.Customers.OrderByDescending(t => t.CreateTime).Skip(pagination.rows * (pagination.page - 1))
                     .Take(pagination.rows).ToList(),
                 records = totalRows,
                 total = pagination.total,

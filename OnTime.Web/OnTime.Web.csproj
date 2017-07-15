@@ -174,18 +174,16 @@
     <Content Include="Content\images\form-box.png" />
     <Content Include="Content\images\get.png" />
     <Content Include="Content\images\get2.png" />
-    <Content Include="Content\images\lcj-zt-01.jpg" />
-    <Content Include="Content\images\lcj-zt-02.jpg" />
-    <Content Include="Content\images\lcj-zt-03.jpg" />
-    <Content Include="Content\images\lcj-zt-04.jpg" />
-    <Content Include="Content\images\lcj-zt-05.jpg" />
-    <Content Include="Content\images\lcj-zt-06.jpg" />
-    <Content Include="Content\images\lcj-zt-07.gif" />
-    <Content Include="Content\images\lcj-zt-07.jpg" />
     <Content Include="Content\images\link-box.png" />
     <Content Include="Content\images\mobile-bg.jpg" />
     <Content Include="Content\images\mobile-message.png" />
+    <Content Include="Content\images\qq\alert-box.png" />
+    <Content Include="Content\images\qq\body-bg.gif" />
+    <Content Include="Content\images\qq\slider-bg.png" />
+    <Content Include="Content\images\qq\turn-l.png" />
+    <Content Include="Content\images\qq\turn-r.png" />
     <Content Include="Content\images\success-msg.jpg" />
+    <Content Include="Content\JoinQQ.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -209,6 +207,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.roundabout.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -242,6 +241,7 @@
     <Content Include="Views\Default\Index.cshtml" />
     <Content Include="Views\Default\DiagnosisStock.cshtml" />
     <Content Include="Views\Default\DiagnosisStockMobile.cshtml" />
+    <Content Include="Views\Default\JoinQQ.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

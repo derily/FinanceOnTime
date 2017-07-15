@@ -1,0 +1,139 @@
+﻿ * {
+     margin: 0;
+     padding: 0;
+ }
+ body {
+     min-width: 980px;
+     font-family: "Microsoft Yahei";
+     overflow-x: hidden;
+ }
+ ul {
+     list-style: none;
+ }
+ img {
+     border: none;
+ }
+ input {
+     box-sizing: border-box;
+     outline: none;
+     border: none;
+ }
+ .container {
+     position: relative;
+     width: 980px;
+     margin: 0 auto;
+ }
+ .main-bg {
+     width: 1920px;
+     margin-left: -470px;
+ }
+ .topActiveArea {
+     position: absolute;
+     top: 458px;
+     left: 282px;
+ }
+ .qq-link {
+     display: block;
+ }
+ .topActiveArea .sm-btn {
+     width: 290px;
+     height: 66px;
+ }
+ .topActiveArea .lg-btn {
+     margin-top: 240px;
+     margin-left: 17px;
+     width: 380px;
+     height: 74px;
+ }
+ .bottomActiveArea {
+     position: absolute;
+     left: 0;
+     bottom: 21px;
+ }
+ .bottomActiveArea .md-btn {
+     margin-left: 684px;
+     width: 255px;
+     height: 62px;
+ }
+ .alertBox {
+     position: fixed;
+     left: 30px;
+     bottom: 30px;
+     width: 299px;
+     height: 469px;
+     background: url(/Content/images/qq/alert-box.png) no-repeat;
+     animation: mymove 1s ease-in-out alternate infinite;
+ }
+ .alertBox .text-info {
+     color: #fff;
+     text-align: center;
+     padding-top: 140px;
+     font-size: 19px;
+ }
+ @keyframes mymove
+ {
+     from {bottom:30px;}
+     to {bottom:20px;}
+ }
+ .sliderBox {
+     position: absolute;
+     width: 980px;
+     height: 117px;
+     top: 1550px;
+     left: 0;
+ }
+ .sliderBox li {
+     width: 220px;
+     height: 117px;
+     background-image: url(/Content/images/qq/slider-bg.png);
+     background-position: center;
+     background-size: 100%;
+     background-repeat: no-repeat;
+     text-align: center;
+     overflow: hidden;
+     cursor: pointer;
+ }
+ .sliderBox ul {
+     width: 700px;
+     height: 117px;
+     margin: 0 auto;
+ }
+ .sliderBox .btn {
+     position: absolute;
+     width: 40px;
+     height: 40px;
+     top: 50%;
+     margin-top: -20px;
+     background-position: center;
+     background-size: 100%;
+ }
+ .sliderBox .btn-l {
+     left: 40px;
+     background-image: url(/Content/images/qq/turn-l.png);
+ }
+ .sliderBox .btn-r {
+     right: 40px;
+     background-image: url(/Content/images/qq/turn-r.png);
+ }
+ .text-t {
+     margin-top: 12%;
+     font-weight: bold;
+     line-height: 1.5;
+     color: #fff; 
+ }
+ .text-b {
+     line-height: 1.5;
+     font-weight: bold;
+     color: #fcfe23;
+ }
+ .sliderBox li .code {
+     font-size: 1.14em;
+     margin-right: 7%;
+ }
+ .sliderBox li .name, .sliderBox li .profit {
+     font-size: 1.3em;
+ }
+ .sliderBox li .time {
+     font-size: 1em;
+     margin-right: 5px;
+ }

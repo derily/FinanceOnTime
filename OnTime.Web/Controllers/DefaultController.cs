@@ -6,13 +6,13 @@ using System.Web.Mvc;
 using OnTime.DataLayer;
 using OnTime.DataLayer.Entities;
 using System.Configuration;
+using System.Text.RegularExpressions;
 
 namespace OnTime.Web.Controllers
 {
     public class DefaultController : Controller
     {
         private OnTimeContext db=new OnTimeContext();
-        // GET: Default
         public ActionResult Index()
         {
             int totalRows = db.WeChatAccounts.Count();
@@ -24,10 +24,17 @@ namespace OnTime.Web.Controllers
            // return View(model);
         }
 
+        public ActionResult JoinQQ()
+        {
+           
+            return View(db.QQGroups.Where(t=>t.Valid==true).FirstOrDefault());
+        }
+
         [HttpGet]
         public ActionResult DiagnosisStock()
         {
-            if (Request.Browser.IsMobileDevice)
+           // if (Request.Browser.IsMobileDevice)
+           if(IsMobileBrowser())
             {
                 return View("DiagnosisStockMobile");
             }
@@ -49,6 +56,16 @@ namespace OnTime.Web.Controllers
             });
             db.SaveChanges();
             return new EmptyResult();
+        }
+
+        public bool IsMobileBrowser()
+        {
+            Regex b= new Regex(@"(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            if (b.IsMatch(Request.Headers["User-Agent"]))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
