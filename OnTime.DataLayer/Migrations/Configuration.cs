@@ -9,7 +9,7 @@ namespace OnTime.DataLayer.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "OnTime.DataLayer.OnTimeContext";
         }
 

@@ -1,4 +1,5 @@
 ﻿using OnTime.DataLayer.Entities;
+using OnTime.DataLayer.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -12,7 +13,9 @@ namespace OnTime.DataLayer
     {
         public OnTimeContext():base("DefaultConnection")
         {
-                Database.SetInitializer(new CreateDatabaseIfNotExists<OnTimeContext>());
+            // Database.SetInitializer(new CreateDatabaseIfNotExists<OnTimeContext>());
+            Database.SetInitializer<OnTimeContext>(new MigrateDatabaseToLatestVersion<OnTimeContext, Configuration>());
+           // Database.SetInitializer<OnTimeContext>(null);
         }
 
         public DbSet<PageImage> Images { get; set; }
@@ -21,7 +24,6 @@ namespace OnTime.DataLayer
         public  DbSet<QQGroup> QQGroups { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer<OnTimeContext>(null);
             base.OnModelCreating(modelBuilder);
         }
     }

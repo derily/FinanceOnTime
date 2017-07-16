@@ -151,13 +151,14 @@
                                 </div>
                             </div>
                         </div>
-                            
+                        <div class="form-group">
+                            <label for="JoinLink" class="col-xs-2 control-label">加群链接</label>
+                            <div class="col-xs-10">
+                                <textarea class="form-control" id="JoinLink" name="JoinLink" type="text"></textarea>
+                            </div>
+                        </div>
 
-                        @*<label for="Valid" class="col-xs-2 control-label">是否有效</label>
-                            <div class="col-xs-2">
-                                <input id="Valid" name="Valid" type="checkbox" value="true"/>
-                                <input type="hidden" value="false" name="Valid" />
-                            </div>*@
+                      
                         <div class="form-group">
                             <label for="uploadimg" class="col-xs-2 control-label">二维码图片</label>
                             <div class="col-xs-10">
@@ -283,8 +284,9 @@
             datatype: "json",
             colModel: [
                 { label: '主键', name: 'Id', hidden: true },
-                { label: '昵称', name: 'NickName', key: false },
-                { label: '微信号', name: 'AccountId' },
+                { label: '群名称', name: 'GroupName', key: false },
+                { label: 'QQ群账号', name: 'AccountId' },
+                {label:'加群链接',name:'JoinLink',hidden:true},
                 { label: '二维码', name: 'BarCode' },
                 {
                     label: '是否有效', name: 'Valid', formatter: function (cellvalue, options, rowObject) {
@@ -338,11 +340,12 @@
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
             if (rowId != '0') {
-                modal.find('.modal-title').text("编辑微信账号");
+                modal.find('.modal-title').text("编辑QQ群账号");
                 var rowdata = $grid.jqGrid('getRowData', rowId,true);
                 modal.find('#Id').val(rowdata.Id);
-                modal.find('#NickName').val(rowdata.NickName);
+                modal.find('#GroupName').val(rowdata.GroupName);
                 modal.find('#AccountId').val(rowdata.AccountId);
+                modal.find('#JoinLink').val(rowdata.JoinLink);
                 var $Valid = modal.find('#Valid')
                 var bol = $(rowdata.Valid).text() == '有效';
                 if (bol) {
@@ -355,7 +358,7 @@
                 modal.find('.input-group input[type=text]').val(rowdata.BarCode);
                 $('#img-preview').attr('src', location.origin + rowdata.BarCode);
             } else if(rowId=='0') {
-                modal.find('.modal-title').text("新增微信账号");
+                modal.find('.modal-title').text("新增QQ群账号");
             } 
         });
 

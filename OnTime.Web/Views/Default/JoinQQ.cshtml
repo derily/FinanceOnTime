@@ -1,6 +1,8 @@
 ﻿@model OnTime.DataLayer.Entities.QQGroup
+@using System.Configuration;
 @{
     Layout = null;
+    string RootPath = ConfigurationManager.AppSettings["admindomain"];
 }
 
 <!DOCTYPE html>
@@ -66,7 +68,7 @@
 <div class="alertBox">
     <div class="codeArea" style="width: 100%; padding-top: 80px;">
         <div class="code" style="width: 172px; height: 172px; background-color: #fff; margin-left: 65px;">
-            
+            <img src="@Url.Content(RootPath+Model.BarCode)" style="width: 172px; height: 172px;" />
         </div>
         <div class="text-info">
             <p>添加QQ群: <span>@Model.AccountId</span></p>

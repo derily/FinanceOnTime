@@ -19,11 +19,11 @@ namespace OnTime.AdminUI.Controllers
         }
         public JsonResult GetList(Pagination pagination, string search)
         {
-            int totalRows = db.WeChatAccounts.Count();
+            int totalRows = db.QQGroups.Count();
             pagination.records = totalRows;
-            ViewPagerModel<WeChatAccount> list = new ViewPagerModel<WeChatAccount>()
+            ViewPagerModel<QQGroup> list = new ViewPagerModel<QQGroup>()
             {
-                rows = db.WeChatAccounts.OrderBy(t => t.NickName).Skip(pagination.rows * (pagination.page - 1))
+                rows = db.QQGroups.OrderBy(t => t.GroupName).Skip(pagination.rows * (pagination.page - 1))
                     .Take(pagination.rows).ToList(),
                 records = totalRows,
                 total = pagination.total,
@@ -32,7 +32,7 @@ namespace OnTime.AdminUI.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult Save(WeChatAccount account)
+        public JsonResult Save(QQGroup account)
         {
             if (account.Id != default(Guid))
             {
@@ -40,7 +40,7 @@ namespace OnTime.AdminUI.Controllers
             }
             else
             {
-                db.WeChatAccounts.Add(account);
+                db.QQGroups.Add(account);
             }
             db.SaveChanges();
             return Json(new { code = "ok", message = "success saved" });

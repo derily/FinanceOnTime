@@ -23,6 +23,11 @@ namespace OnTime.Web
                 defaults: new {controller="Default",action= "DiagnosisStock" }
             );
             routes.MapRoute(
+                name: "", 
+                url: "qq", 
+                defaults: new { controller = "Default", action = "JoinQQ" }
+                );
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Default", action = "Index", id = UrlParameter.Optional }
