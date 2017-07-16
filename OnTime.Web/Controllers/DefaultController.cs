@@ -7,6 +7,9 @@ using OnTime.DataLayer;
 using OnTime.DataLayer.Entities;
 using System.Configuration;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Net.Mail;
+using System.Net;
 
 namespace OnTime.Web.Controllers
 {
@@ -45,7 +48,7 @@ namespace OnTime.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult DiagnosisStock(string phone,string code)
+        public async Task<ActionResult> DiagnosisStock(string phone,string code)
         {
             //db.Customers.Any(t=>t.PhoneNum==phone)
             db.Customers.Add(new Customer()
@@ -55,6 +58,18 @@ namespace OnTime.Web.Controllers
                 CreateTime = DateTime.Now
             });
             db.SaveChanges();
+            MailMessage message = new MailMessage();
+            message.Subject = "";
+            message.To.Add(new MailAddress(""));
+            
+            using (var smtp=new SmtpClient())
+            {
+                smtp.Credentials = new NetworkCredential("", "");
+                smtp.EnableSsl = true;
+                smtp.Host = "";
+                smtp.Port = 993;
+                await smtp.SendMailAsync(message);
+            }
             return new EmptyResult();
         }
 
