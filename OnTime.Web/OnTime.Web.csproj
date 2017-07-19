@@ -224,6 +224,7 @@
     <Content Include="Content\images\get2.png" />
     <Content Include="Content\images\link-box.png" />
     <Content Include="Content\images\mobile-bg.jpg" />
+    <Content Include="Content\images\mobile-bg-nb.jpg" />
     <Content Include="Content\images\mobile-message.png" />
     <Content Include="Content\images\qq\alert-box.png" />
     <Content Include="Content\images\qq\body-bg.gif" />
@@ -305,6 +306,7 @@
     <Content Include="Views\Default\DiagnosisStockMobile.cshtml" />
     <Content Include="Views\Default\JoinQQ.cshtml" />
     <None Include="Service References\MailService\WebService.wsdl" />
+    <Content Include="Views\Default\DiagnosisStockMobile1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

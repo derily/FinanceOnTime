@@ -65,9 +65,17 @@ namespace OnTime.Web.Controllers
         {
            // if (Request.Browser.IsMobileDevice)
            if(IsMobileBrowser())
-            {
-                log.ErrorLog(Url.Content("~/ErrorLog"),this.Request.Url.PathAndQuery);
-                return View("DiagnosisStockMobile");
+           {
+               string query = Request.Url.PathAndQuery;
+                log.ErrorLog(Server.MapPath("~/ErrorLog"),this.Request.Url.PathAndQuery);
+               if (query == "/diag1" || query == "/diag2" || query == "/diag3")
+               {
+                   return View("DiagnosisStockMobile1");
+               }
+               else
+               {
+                   return View("DiagnosisStockMobile");
+                }
             }
             else
             {
