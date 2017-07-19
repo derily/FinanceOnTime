@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div>
+                <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-id="0">新增</button>-->
+                <table id="jqGrid" style="width: 100%"></table>
+                <div id="jqGridPager"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+   $(document).ready(function() {
+       $("#jqGrid").jqGrid({
+           url: '@Url.Action("GetList")',
+           mtype: "GET",
+           styleUI: 'Bootstrap',
+           datatype: "json",
+           colModel: [
+               { label: '主键', name: 'Id', hidden: true },
+               { label: '用户名', name: 'UserName', key: false },
+               { label: '邮箱账号', name: 'Email' },
+               {
+                   label: '是否有效', name: 'Valid', formatter: function (cellvalue, options, rowObject) {
+                       return cellvalue ? '<span class="label label-success">有效</span>' : '<span class="label label-default">无效</span>';
+                   }
+               },
+               {
+                   label: '操作',
+                   name: '',
+                   formatter: function (cellvalue, options, rowObject) {
+                       return '<button type="button" class="btn-flat btn-default" data-toggle="modal" data-target="#editModal" data-id="' +
+                           options.rowId +
+                           '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
+                   }
+               }
+           ],
+           onSelectRow: function (id, or) {
+               // alert(id);
+           },
+           beforeSelectRow: function (rowid, e) {
+               return false;
+           },
+           viewrecords: true,
+           autowidth: true,
+           height: 250,
+           rowNum: 10,
+           pager: "#jqGridPager"
+       });
+   })
+</script>

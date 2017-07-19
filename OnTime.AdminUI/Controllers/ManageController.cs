@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OnTime.AdminUI.Models;
+using OnTime.DataLayer;
 
 namespace OnTime.AdminUI.Controllers
 {

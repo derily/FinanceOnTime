@@ -1,20 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using Microsoft.AspNet.Identity;
+using OnTime.DataLayer.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using Microsoft.Owin.Security;
-using OnTime.AdminUI.Models;
-using OnTime.DataLayer;
-using OnTime.DataLayer.Entities;
 
-namespace OnTime.AdminUI
+namespace OnTime.DataLayer
 {
     public class EmailService : IIdentityMessageService
     {
@@ -33,8 +28,6 @@ namespace OnTime.AdminUI
             return Task.FromResult(0);
         }
     }
-
-    // 配置此应用程序中使用的应用程序用户管理器。UserManager 在 ASP.NET Identity 中定义，并由此应用程序使用。
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
@@ -42,7 +35,7 @@ namespace OnTime.AdminUI
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
             // 配置用户名的验证逻辑
@@ -83,29 +76,10 @@ namespace OnTime.AdminUI
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
+                manager.UserTokenProvider =
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
-        }
-    }
-
-    // 配置要在此应用程序中使用的应用程序登录管理器。
-    public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
-    {
-        public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
-            : base(userManager, authenticationManager)
-        {
-        }
-
-        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
-        {
-            return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
-        }
-
-        public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
-        {
-            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
         }
     }
 }

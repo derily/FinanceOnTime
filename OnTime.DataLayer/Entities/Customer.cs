@@ -14,6 +14,7 @@ namespace OnTime.DataLayer.Entities
         public string PhoneNum { get; set; }
         public string Profession { get; set; }
         public string StockCode { get; set; }
+        public int? NotifyStatus { get; set; }
         public DateTime CreateTime { get; set; }      
     }
 }

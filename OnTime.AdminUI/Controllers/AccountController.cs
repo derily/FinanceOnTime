@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OnTime.AdminUI.Models;
+using OnTime.DataLayer;
+using OnTime.DataLayer.Entities;
 
 namespace OnTime.AdminUI.Controllers
 {
@@ -26,6 +28,26 @@ namespace OnTime.AdminUI.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public JsonResult GetList(Pagination pagination, string search)
+        {
+            int totalRows = UserManager.Users.Count();
+            pagination.records = totalRows;
+            ViewPagerModel<ApplicationUser> list = new ViewPagerModel<ApplicationUser>()
+            {
+                rows = UserManager.Users.OrderBy(t => t.UserName).Skip(pagination.rows * (pagination.page - 1))
+                    .Take(pagination.rows).ToList(),
+                records = totalRows,
+                total = pagination.total,
+                page = pagination.page
+            };
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public ApplicationSignInManager SignInManager
@@ -151,7 +173,7 @@ namespace OnTime.AdminUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email,Valid = true};
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

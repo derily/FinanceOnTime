@@ -14,8 +14,8 @@ namespace OnTime.DataLayer
         public OnTimeContext():base("DefaultConnection")
         {
             // Database.SetInitializer(new CreateDatabaseIfNotExists<OnTimeContext>());
-            Database.SetInitializer<OnTimeContext>(new MigrateDatabaseToLatestVersion<OnTimeContext, Configuration>());
-           // Database.SetInitializer<OnTimeContext>(null);
+            //Database.SetInitializer<OnTimeContext>(new MigrateDatabaseToLatestVersion<OnTimeContext, Configuration>());
+           Database.SetInitializer<OnTimeContext>(null);
         }
 
         public DbSet<PageImage> Images { get; set; }

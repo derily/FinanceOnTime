@@ -17,6 +17,12 @@ namespace OnTime.Web
                 name: "", 
                 url: "index", 
                 defaults: new {controller = "Default", action = "Index"});
+
+            // /diag1,/diag2,/diag3 => /diag
+            for (int i = 1; i < 4; i++)
+            {
+                routes.MapRoute("RouteName" + i, "diag" + i, new {controller = "Default", action = "DiagnosisStock"});
+            }
             routes.MapRoute(
                 name: "",
                 url: "diag",
