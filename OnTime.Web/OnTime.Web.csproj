@@ -231,6 +231,7 @@
     <Content Include="Content\images\qq\slider-bg.png" />
     <Content Include="Content\images\qq\turn-l.png" />
     <Content Include="Content\images\qq\turn-r.png" />
+    <Content Include="Content\images\scroll-btn.png" />
     <Content Include="Content\images\success-msg.jpg" />
     <Content Include="Content\JoinQQ.css" />
     <Content Include="favicon.ico" />
@@ -265,6 +266,15 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\layer\layer.js" />
+    <Content Include="Scripts\layer\mobile\layer.js" />
+    <Content Include="Scripts\layer\mobile\need\layer.css" />
+    <Content Include="Scripts\layer\skin\default\icon-ext.png" />
+    <Content Include="Scripts\layer\skin\default\icon.png" />
+    <Content Include="Scripts\layer\skin\default\layer.css" />
+    <Content Include="Scripts\layer\skin\default\loading-0.gif" />
+    <Content Include="Scripts\layer\skin\default\loading-1.gif" />
+    <Content Include="Scripts\layer\skin\default\loading-2.gif" />
     <Content Include="Scripts\messages_zh.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
@@ -302,11 +312,11 @@
     <Content Include="Views\WeChatAccounts\Edit.cshtml" />
     <Content Include="Views\WeChatAccounts\Index.cshtml" />
     <Content Include="Views\Default\Index.cshtml" />
-    <Content Include="Views\Default\DiagnosisStock.cshtml" />
     <Content Include="Views\Default\DiagnosisStockMobile.cshtml" />
     <Content Include="Views\Default\JoinQQ.cshtml" />
     <None Include="Service References\MailService\WebService.wsdl" />
     <Content Include="Views\Default\DiagnosisStockMobile1.cshtml" />
+    <Content Include="Views\Default\DiagnosisStock.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -331,9 +341,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\MailService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferences Include="Web References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

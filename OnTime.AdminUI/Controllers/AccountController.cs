@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OnTime.AdminUI.Models;
@@ -19,15 +20,34 @@ namespace OnTime.AdminUI.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private ApplicationDbContext _context;
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,ApplicationDbContext context )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _context = context;
+        }
+
+        public ApplicationDbContext Context
+        {
+            get { return _context ?? HttpContext.GetOwinContext().Get<ApplicationDbContext>(); }
+            private set { _context = value; }
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get{ return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();}
+            private set{ _signInManager = value;}
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get{ return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();}
+            private set{_userManager = value;}
         }
 
         public ActionResult Index()
@@ -39,9 +59,17 @@ namespace OnTime.AdminUI.Controllers
         {
             int totalRows = UserManager.Users.Count();
             pagination.records = totalRows;
+            //IdentityUserRole role = new IdentityUserRole();
+            //IdentityRole role = IdentityRole();
+            //role.Name = "admin";
+           // var roleManager=new  RoleManager<IdentityRole>(new RoleStore<IdentityRole>)
+            var role = Context.Roles.SingleOrDefault(m => m.Name == "user");
             ViewPagerModel<ApplicationUser> list = new ViewPagerModel<ApplicationUser>()
             {
-                rows = UserManager.Users.OrderBy(t => t.UserName).Skip(pagination.rows * (pagination.page - 1))
+                //rows = UserManager.Users.Where(m=>m.Roles.Contains()).OrderBy(t => t.UserName).Skip(pagination.rows * (pagination.page - 1))
+                //    .Take(pagination.rows).ToList(),
+                rows=Context.Users.Where(m=>m.Roles.Any(r=>r.RoleId==role.Id)).OrderBy(t=>t.UserName)
+                    .Skip(pagination.rows*(pagination.page-1))
                     .Take(pagination.rows).ToList(),
                 records = totalRows,
                 total = pagination.total,
@@ -50,29 +78,7 @@ namespace OnTime.AdminUI.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+       
 
         //
         // GET: /Account/Login
@@ -164,6 +170,76 @@ namespace OnTime.AdminUI.Controllers
             return View();
         }
 
+
+        public async Task<ActionResult> Save(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser {UserName = model.Email, Email = model.Email,EmailConfirmed = true,Valid = true};
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await UserManager.AddToRoleAsync(user.Id, "user");//将用户添加到user角色
+                    return Json(new {success = true, message = ""});
+                }
+                else
+                {
+                    return Json(new {success = false, message = string.Join(";", result.Errors)});
+                }
+            }
+            else
+            {
+                return Json(new {success = false, message = "绑定参数错误"});
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveUser(string userId)
+        {
+           var user= await UserManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+               var result=  await UserManager.DeleteAsync(user);
+            }
+        }
+
+        /// <summary>
+        /// 切换用户是否可以登录状态
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
+        public async Task<ActionResult> SwitchAccountStatus(string userName)
+        {
+            var user=await UserManager.FindByNameAsync(userName);
+
+            if (user != null)
+            {
+                // user.Valid == true ? user.Valid = false : user.Valid = true;
+                if (user.Valid.HasValue&&user.Valid.Value)
+                {
+                    user.Valid = false;
+                }
+                else
+                {
+                    user.Valid = true;
+                }
+                var result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    return Json(new {success = true, message = ""});
+                }
+                else
+                {
+                    return Json(new {success = false, message = string.Join(";", result.Errors)});
+                }
+            }
+            else
+            {
+                return Json(new { success = false, message = userName+",此用户不存在" });
+            }
+           
+        }
+
         //
         // POST: /Account/Register
         [HttpPost]
@@ -233,10 +309,10 @@ namespace OnTime.AdminUI.Controllers
 
                 // 有关如何启用帐户确认和密码重置的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkID=320771
                 // 发送包含此链接的电子邮件
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "重置密码", "请通过单击 <a href=\"" + callbackUrl + "\">此处</a>来重置你的密码");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                 await UserManager.SendEmailAsync(user.Id, "重置密码", "请通过单击 <a href=\"" + callbackUrl + "\">此处</a>来重置你的密码");
+                 return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // 如果我们进行到这一步时某个地方出错，则重新显示表单

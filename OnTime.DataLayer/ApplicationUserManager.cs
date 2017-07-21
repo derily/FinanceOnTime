@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using OnTime.DataLayer.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using OnTime.DataLayer.MailService;
 
 namespace OnTime.DataLayer
 {
@@ -16,7 +14,10 @@ namespace OnTime.DataLayer
         public Task SendAsync(IdentityMessage message)
         {
             // 在此处插入电子邮件服务可发送电子邮件。
-            return Task.FromResult(0);
+            OnTime.DataLayer.MailService.WebServiceSoap client =new WebServiceSoapClient();
+            SendEmalRequestBody body=new SendEmalRequestBody(message.Destination,message.Subject,message.Body, "xiaod@lecaijing.com", "Lcj123456");
+           return client.SendEmalAsync(new SendEmalRequest(body));
+           // return Task.FromResult(0);
         }
     }
 

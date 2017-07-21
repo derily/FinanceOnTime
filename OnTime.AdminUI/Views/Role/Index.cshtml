@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-id="0">新增</button>
+                <table id="jqGrid" style="width: 100%"></table>
+                <div id="jqGridPager"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-lg" style="width: 40%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" data-async id="editForm" class="form-horizontal" method="post" action="@Url.Action("Create")">
+                        <input type="hidden" id="Id" name="Id" />
+                        <div class="form-group">
+                            <label for="Name" class="col-xs-2 control-label">角色名称</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" id="Name" name="Name" type="text" />
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary" onclick="submitForm()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var $grid = $('#jqGrid');
+    $(document).ready(function () {
+        $("#jqGrid").jqGrid({
+            url: '@Url.Action("GetList")',
+            mtype: "GET",
+            styleUI: 'Bootstrap',
+            datatype: "json",
+            colModel: [
+                { label: '主键', name: 'Id', hidden: true },
+                { label: '角色名称', name: 'Name', key: false }
+            ],
+            onSelectRow: function (id, or) {
+                // alert(id);
+            },
+            beforeSelectRow: function (rowid, e) {
+                return false;
+            },
+            viewrecords: true,
+            autowidth: true,
+            height: 250,
+            rowNum: 10,
+            pager: "#jqGridPager"
+        });
+
+        $('#editForm').on('submit',
+            function (event) {
+                var $form = $(this);
+                var $target = $('#editModal');
+
+                $.ajax({
+                    type: $form.attr('method'),
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    dataType: 'json',
+                    success: function (data, status) {
+                        if (data.success) {
+                            $target.modal('hide');
+                            $grid.trigger("reloadGrid");
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                });
+                event.preventDefault();
+            });
+    });
+
+    function submitForm() {
+        $('#editForm').submit();
+    }
+</script>

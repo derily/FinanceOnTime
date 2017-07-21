@@ -21,6 +21,7 @@ namespace OnTime.Web.Controllers
     {
         private OnTimeContext db=new OnTimeContext();
         private ApplicationUserManager _userManager;
+        private bool mobileFlag=false;
         FileLogger log = new FileLogger();
         public DefaultController()
         {
@@ -47,8 +48,8 @@ namespace OnTime.Web.Controllers
         {
             int totalRows = db.WeChatAccounts.Count();
            // int index=new Random().Next(totalRows);
-            List<PageImage> images = db.Images.ToList();
-            Session["images"] = images;
+            ViewBag.images = db.Images.ToList();
+           // Session["images"] = images;
             ViewBag.ResourceRootPath= ConfigurationManager.AppSettings["admindomain"];
             return View(db.WeChatAccounts.Where(t=>t.Valid==true).OrderBy(c=>Guid.NewGuid()).FirstOrDefault());
            // return View(model);
@@ -67,7 +68,8 @@ namespace OnTime.Web.Controllers
            if(IsMobileBrowser())
            {
                string query = Request.Url.PathAndQuery;
-                log.ErrorLog(Server.MapPath("~/ErrorLog"),this.Request.Url.PathAndQuery);
+               mobileFlag = true;
+               // log.ErrorLog(Server.MapPath("~/ErrorLog"),this.Request.Url.PathAndQuery);
                if (query == "/diag1" || query == "/diag2" || query == "/diag3")
                {
                    return View("DiagnosisStockMobile1");
@@ -84,7 +86,7 @@ namespace OnTime.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> DiagnosisStock(string phone,string code)
+        public async Task<ActionResult> DiagnosisStock(string phone,string code,string source="pc")
         {
             if (db.Customers.Any(t => t.PhoneNum == phone))
             {
@@ -95,7 +97,9 @@ namespace OnTime.Web.Controllers
             {
                 PhoneNum = phone,
                 StockCode=code,
-                CreateTime = DateTime.Now
+                CreateTime = DateTime.Now,
+                Source = source,
+                ClientIPAddress = GetRealIP()
             });
             db.SaveChanges();
 
@@ -145,12 +149,12 @@ namespace OnTime.Web.Controllers
             }
             catch (Exception ex)
             {
-                log.ErrorLog(Url.Content("~/ErrorLog"), ex.Message);
+               // log.ErrorLog(Url.Content("~/ErrorLog"), ex.Message);
             }
 
             #endregion
 
-            return Json(new {success=true,message=""});
+            return Json(new {success=true,message= "提交成功，我们会将你关注的股票信息发送到您的手机。" });
         }
 
         private void SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -169,6 +173,72 @@ namespace OnTime.Web.Controllers
                 return true;
             }
             return false;
+        }
+
+        public string GetRealIP()
+        {
+            string result = String.Empty;
+            result = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            //可能有代理   
+            if (!string.IsNullOrWhiteSpace(result))
+            {
+                //没有"." 肯定是非IP格式  
+                if (result.IndexOf(".") == -1)
+                {
+                    result = null;
+                }
+                else
+                {
+                    //有","，估计多个代理。取第一个不是内网的IP。  
+                    if (result.IndexOf(",") != -1)
+                    {
+                        result = result.Replace(" ", string.Empty).Replace("\"", string.Empty);
+                        string[] temparyip = result.Split(",;".ToCharArray());
+                        if (temparyip != null && temparyip.Length > 0)
+                        {
+                            for (int i = 0; i < temparyip.Length; i++)
+                            {
+                                //找到不是内网的地址  
+                                if (IsIPAddress(temparyip[i]) && temparyip[i].Substring(0, 3) != "10." && temparyip[i].Substring(0, 7) != "192.168" && temparyip[i].Substring(0, 7) != "172.16.")
+                                {
+                                    return temparyip[i];
+                                }
+                            }
+                        }
+                    }
+                    //代理即是IP格式  
+                    else if (IsIPAddress(result))
+                    {
+                        return result;
+                    }
+                    //代理中的内容非IP  
+                    else
+                    {
+                        result = null;
+                    }
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(result))
+            {
+                result = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            }
+
+            if (string.IsNullOrWhiteSpace(result))
+            {
+                result = System.Web.HttpContext.Current.Request.UserHostAddress;
+            }
+            return result;
+        }
+        public bool IsIPAddress(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str) || str.Length < 7 || str.Length > 15)
+                return false;
+
+            string regformat = @"^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})";
+            Regex regex = new Regex(regformat, RegexOptions.IgnoreCase);
+
+            return regex.IsMatch(str);
         }
     }
 }

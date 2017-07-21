@@ -14,198 +14,246 @@
             margin: 0;
             padding: 0;
         }
-
         body {
             width: 100%;
             overflow-x: hidden;
         }
-
         input {
             box-sizing: border-box;
             outline: none;
             border: none;
         }
-
         a {
             -webkit-tap-highlight-color: transparent;
         }
-
         .container {
             position: relative;
             width: 100%;
         }
-
-            .container img {
-                width: 100%;
-            }
-
+        .container img {
+            width: 100%;
+        }
         .formArea {
             position: absolute;
             top: 0;
             padding-top: 94.8%;
             width: 100%;
         }
-
-            .formArea form {
-                position: relative;
-                width: 83.33%;
-                padding-top: 44%;
-                margin: 0 auto;
-            }
-
-            .formArea input {
-                position: absolute;
-                left: 0;
-                width: 100%;
-                height: 24.8%;
-                padding-left: 4%;
-                border: 1px solid transparent;
-            }
-
-                .formArea input.error {
-                    border-color: #f3bf7e;
-                }
-
-                .formArea input[name=code] {
-                    top: 0;
-                }
-
-                .formArea input[name=phone] {
-                    top: 35%;
-                }
-
+        .formArea form {
+            position: relative;
+            width: 83.33%;
+            padding-top: 44%;
+            margin: 0 auto;
+        }
+        .formArea input {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 24.8%;
+            padding-left: 4%;
+            border: 1px solid transparent;
+        }
+        .formArea input.error {
+            border-color: #f3bf7e;
+        }
+        .formArea input[name=code] {
+            top: 0;
+        }
+        .formArea input[name=phone] {
+            top: 35%;
+        }
         .phone-link {
             position: absolute;
             width: 100%;
             height: 29%;
             bottom: 0;
         }
-
         .formArea p.error {
-            position: absolute;
+            position: absolute;	
             left: 0;
             font-size: 12px;
             color: #f3bf7e;
         }
-
         #phone-error {
             top: 60%;
         }
-
         #code-error {
             top: 25%;
         }
-
         .success-msg {
-            position: fixed;
+            display: none;
             width: 80%;
-            padding-top: 64.2%;
-            left: 50%;
-            top: 50%;
-            margin-left: -40%;
-            margin-top: -23%;
-            transform: scale(0);
-            -ms-transform: scale(0);
-            transition: transform 0.3s;
+            padding-top: 77.2%;
         }
-
-            .success-msg img {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-            }
-
-            .success-msg .close-btn {
-                position: absolute;
-                z-index: 2;
-                top: 15px;
-                right: 15px;
-                cursor: pointer;
-                color: #999;
-            }
-
-                .success-msg .close-btn:hover {
-                    color: #333;
-                    font-weight: bold;
-                }
+        .success-msg img {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .success-msg .close-btn {
+            position: absolute;
+            z-index: 2;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            color: #999;
+        }
+        .success-msg .close-btn:hover {
+            color: #333;
+            font-weight: bold;
+        }
+        .scroll-to-form {
+            position: fixed;
+            display: none;
+            right: 4%;
+            bottom: 1%;
+            width: 30%;
+            height: auto;
+            animation: mymove 0.5s ease-in-out alternate infinite;
+        }
+        .scroll-to-form img {
+            width: 100%;
+            vertical-align: top;
+        }
+        @@keyframes mymove
+        {
+            from {bottom: 1%;}
+            to {bottom: 1.5%;}
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="formArea">
-            <form id="stock-form">
-                <input type="text" name="code" placeholder="请输入股票代码">
-                <input type="text" name="phone" placeholder="请输入手机号码">
-                <a class="phone-link" href="javascript: void(0);"></a>
-            </form>
-        </div>
-        <img src="~/Content/images/mobile-bg-nb.jpg" alt="">
+<div class="container">
+    <div class="formArea">
+        <form id="stock-form">
+            <input class="input-code" type="text" name="code" placeholder="请输入股票代码" maxlength="6">
+            <input class="input-phone" type="text" name="phone" placeholder="请输入手机号码" maxlength="11">
+            <a class="phone-link" href="javascript: void(0);"></a>
+        </form>
     </div>
-    <div class="success-msg">
-        <span class="close-btn">X</span>
-        <img src="~/Content/images/mobile-message.png" alt="">
-    </div>
+    <img src="~/Content/images/mobile-bg-nb.jpg" alt="">
+</div>
+<div class="success-msg">
+    <span class="close-btn">X</span>
+    <img src="~/Content/images/mobile-message.png" alt="">
+</div>
+<div class="scroll-to-form">
+    <img src="~/Content/images/scroll-btn.png" alt="">
+</div>
 </body>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/messages_zh.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-touch-events/1.0.5/jquery.mobile-events.js"></script>
 <script>
-    $("#stock-form").validate({
-        rules: {
-            code: {
-                required: true,
-                number: true,
-                rangelength: [6, 6]
-            },
-            phone: {
-                required: true,
-                isMobile: true
-            }
-        },
-        errorElement: "p",
-        messages: {
-            code: {
-                required: "请输入股票代码，例：000001",
-                number: "请输入正确的股票代码",
-                rangelength: "股票代码长度应为6位"
-            },
-            phone: {
-                required: "请输入你的手机号码",
-                isMobile: "请输入正确的手机号码"
-            }
-        },
-        debug: true
-    })
-    $('.phone-link').on('tap', function(e) {
-        if(!$("#stock-form").valid()){
-            return ;
+    $('.phone-link').on('tap', function (e) {
+        var codeNum = $('.input-code').val();
+        var phoneNum = $('.input-phone').val();
+        if (!codeNum) {
+            layer.msg('股票代码不能为空', {
+                time: 3000
+            }, function () {
+                $('.input-code').focus();
+            });
+            return;
         }
+        if (!phoneNum) {
+            layer.msg('手机号码不能为空', {
+                time: 3000
+            }, function () {
+                $('.input-phone').focus();
+            });
+            return;
+        }
+
+        if (!isTrueCode(codeNum)) {
+            layer.msg('股票代码不正确，无法诊断\n请输入6位数的股票代码', {
+                time: 3000
+            });
+            $('.input-code').val("").focus();
+            return;
+        }
+
+        if (!isMobile(phoneNum)) {
+            layer.msg('请正确填写您的手机号码', {
+                time: 3000
+            });
+            $('.input-phone').val("").focus();
+            return;
+        }
+
 
         $.ajax({
             url: '@Url.Action("DiagnosisStock")',
             type: 'POST',
             data: { phone: $('input[name=phone]').val(), code: $('input[name=code]').val() },
             dataType: 'json',
+            beforeSend: function () {
+                layer.load();
+            },
             success: function (data) {
-                console.log(data);
+                layer.closeAll();
+                if (data.success) {
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        area: '80%',
+                        shade: 0,
+                        shadeClose: true,
+                        closeBtn: 0,
+                        content: $(".success-msg")
+                    })
+
+                    $('.input-code').val("");
+                    $('.input-phone').val("");
+                } else {
+                    layer.msg(data.message, {
+                        time: 3000
+                    });
+                    $('.input-phone').focus();
+                }
             }
         });
-        if(true){
-            $(".success-msg").css({
-                "transform": "scale(1)",
-                "-ms-transform": "scale(1)"
-            });
-        }
+        
+
     });
-    $(".close-btn").on('tap', function(){
-        $(".success-msg").css({
-            "transform": "scale(0)",
-            "-ms-transform": "scale(0)"
+    $(".close-btn").on('tap', function () {
+        layer.close(layer.index);
+    })
+
+    $(".scroll-to-form").on('tap', function () {
+        // var inputTop = $(".formArea").innerHeight() - $(".formArea").height();
+        $(document.body).animate({ scrollTop: 0 }, 300, function () {
+            $('.input-code').focus();
         });
     })
 
+    $(window).scroll(function () {
+        var innerHeight = $(this).innerHeight();
+        if ($(document.body).scrollTop() > innerHeight) {
+            $(".scroll-to-form").fadeIn();
+        } else {
+            $(".scroll-to-form").fadeOut();
+        }
+    });
+
+    function isTrueCode(code) {
+        //var length = code.length;
+        //var reg = /^(((002|000|300|600|601|603)[\d]{3})|60[\d]{4})/;
+        //return length == 6 && reg.test(code);
+        var reg = /^[0-9]{6}$/;
+        return reg.test(code);
+    }
+
+    function isMobile(phone) {
+        var length = phone.length;
+        var reg = /^1[3|4|5|7|8][0-9]{9}$/;
+        return length == 11 && reg.test(phone);
+    }
+	
 </script>
 </html>
+

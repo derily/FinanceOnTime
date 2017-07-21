@@ -3,54 +3,255 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
+
+<style>
+    .checkbox label:after,
+    .radio label:after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+
+    .checkbox .cr,
+    .radio .cr {
+        position: relative;
+        display: inline-block;
+        border: 1px solid #a9a9a9;
+        border-radius: .25em;
+        width: 1.3em;
+        height: 1.3em;
+        float: left;
+        margin-right: .5em;
+    }
+
+    .radio .cr {
+        border-radius: 50%;
+    }
+
+    .checkbox .cr .cr-icon,
+    .radio .cr .cr-icon {
+        position: absolute;
+        font-size: .8em;
+        line-height: 0;
+        top: 50%;
+        left: 20%;
+    }
+
+    .radio .cr .cr-icon {
+        margin-left: 0.04em;
+    }
+
+    .checkbox label input[type="checkbox"],
+    .radio label input[type="radio"] {
+        display: none;
+    }
+
+    .checkbox label input[type="checkbox"] + .cr > .cr-icon,
+    .radio label input[type="radio"] + .cr > .cr-icon {
+        transform: scale(3) rotateZ(-20deg);
+        opacity: 0;
+        transition: all .3s ease-in;
+    }
+
+    .checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+    .radio label input[type="radio"]:checked + .cr > .cr-icon {
+        transform: scale(1) rotateZ(0deg);
+        opacity: 1;
+    }
+
+    .checkbox label input[type="checkbox"]:disabled + .cr,
+    .radio label input[type="radio"]:disabled + .cr {
+        opacity: .5;
+    }
+</style>
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
             <div>
-                <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-id="0">新增</button>-->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal" data-id="0">新增</button>
                 <table id="jqGrid" style="width: 100%"></table>
                 <div id="jqGridPager"></div>
             </div>
         </div>
     </div>
+    
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-lg" style="width: 40%;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" data-async id="editForm" class="form-horizontal" method="post" action="@Url.Action("Save")">
+                        <input type="hidden" id="Id" name="Id" />
+                        <div class="form-group">
+                            <label for="Email" class="col-xs-2 control-label">用户名（email）</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" id="Email" name="Email" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Password" class="col-xs-2 control-label">密码</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" id="Password" name="Password" type="password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ConfirmPassword" class="col-xs-2 control-label">确认密码</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" id="ConfirmPassword" name="ConfirmPassword" type="password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-xs-offset-2 col-xs-10">
+                                <div class="checkbox">
+                                    <label style="font-size: 1.2em;font-weight:600">
+                                        <input type="checkbox" name="Valid" id="Valid" value="true" checked>
+                                        <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                        是否有效
+                                    </label>
+                                    <input type="hidden" value="false" name="Valid" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-primary" onclick="submitForm()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
-   $(document).ready(function() {
-       $("#jqGrid").jqGrid({
-           url: '@Url.Action("GetList")',
-           mtype: "GET",
-           styleUI: 'Bootstrap',
-           datatype: "json",
-           colModel: [
-               { label: '主键', name: 'Id', hidden: true },
-               { label: '用户名', name: 'UserName', key: false },
-               { label: '邮箱账号', name: 'Email' },
-               {
-                   label: '是否有效', name: 'Valid', formatter: function (cellvalue, options, rowObject) {
-                       return cellvalue ? '<span class="label label-success">有效</span>' : '<span class="label label-default">无效</span>';
-                   }
-               },
-               {
-                   label: '操作',
-                   name: '',
-                   formatter: function (cellvalue, options, rowObject) {
-                       return '<button type="button" class="btn-flat btn-default" data-toggle="modal" data-target="#editModal" data-id="' +
-                           options.rowId +
-                           '"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>';
-                   }
-               }
-           ],
-           onSelectRow: function (id, or) {
-               // alert(id);
-           },
-           beforeSelectRow: function (rowid, e) {
-               return false;
-           },
-           viewrecords: true,
-           autowidth: true,
-           height: 250,
-           rowNum: 10,
-           pager: "#jqGridPager"
-       });
-   })
+    var $grid = $('#jqGrid');
+    $(document).ready(function() {
+        $("#jqGrid").jqGrid({
+            url: '@Url.Action("GetList")',
+            mtype: "GET",
+            styleUI: 'Bootstrap',
+            datatype: "json",
+            colModel: [
+                { label: '主键', name: 'Id', hidden: true },
+                { label: '用户名', name: 'UserName', key: false },
+                { label: '邮箱账号', name: 'Email' },
+                {
+                    label: '是否有效',
+                    name: 'Valid',
+                    formatter: function(cellvalue, options, rowObject) {
+                        return cellvalue
+                            ? '<span class="label label-success">有效</span>'
+                            : '<span class="label label-default">无效</span>';
+                    }
+                },
+                {
+                    label: '操作',
+                    name: '',
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (rowObject.Valid) {
+                            return '<a type="button" onclick="disable(this);" href="javascript:void(0)" class="btn-flat btn-default" data-uname="' +
+                                rowObject.UserName +
+                                '">停用</a>';
+                        } else {
+                            return '<a type="button" onclick="disable(this);" href="javascript:void(0)" class="btn-flat btn-default" data-uname="' +
+                                rowObject.UserName +
+                                '">启用</a>';
+                        }
+                       
+                    }
+                }
+            ],
+            onSelectRow: function(id, or) {
+                // alert(id);
+            },
+            beforeSelectRow: function(rowid, e) {
+                return false;
+            },
+            viewrecords: true,
+            autowidth: true,
+            height: 250,
+            rowNum: 10,
+            pager: "#jqGridPager"
+        });
+
+        $('#editForm').on('submit',
+            function (event) {
+                var $form = $(this);
+                var $target = $('#editModal');
+
+                $.ajax({
+                    type: $form.attr('method'),
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    dataType: 'json',
+                    success: function (data, status) {
+                        if (data.success) {
+                            $target.modal('hide');
+                            $grid.trigger("reloadGrid");
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                });
+                event.preventDefault();
+            });
+    });
+
+    function submitForm() {
+        $('#editForm').submit();
+    }
+
+
+    function disable(obj) {
+        var uname = $(obj).data('uname');
+        $.ajax({
+            url:'@Url.Action("SwitchAccountStatus")',
+            type: 'POST',
+            data: { userName: uname },
+            success:function(data) {
+                if (data.success) {
+                    alert("更改用户状态成功，停用将不运行登录系统！");
+                    $grid.trigger("reloadGrid");
+                }
+            }
+        });
+    }
+
+    $('#editModal').on('show.bs.modal',
+        function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var rowId = button.data('id'); // Extract info from data-* attributes
+            var modal = $(this);
+            if (rowId != '0') {
+                modal.find('.modal-title').text("编辑用户");
+                var rowdata = $grid.jqGrid('getRowData', rowId, true);
+                modal.find('#Id').val(rowdata.Id);
+                modal.find('#Email').val(rowdata.UserName);
+                modal.find('#Password').val(rowdata.AccountId);
+                var $Valid = modal.find('#Valid');
+                var bol = $(rowdata.Valid).text() == '有效';
+                if (bol) {
+                    $Valid.prop('checked', true);
+                } else {
+                    $Valid.prop('checked', false);
+                }
+            } else if (rowId == '0') {
+                modal.find('.modal-title').text("新增用户");
+            }
+        });
+
+    $('#editModal').on('hidden.bs.modal',
+        function (e) {
+            $(this)
+                .find("input,textarea,select")
+                .val('')
+                .end()
+                .find("input[type=checkbox], input[type=radio]")
+                .prop("checked", "");
+        });
 </script>

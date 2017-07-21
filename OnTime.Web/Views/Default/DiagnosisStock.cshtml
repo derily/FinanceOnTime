@@ -106,19 +106,10 @@
         }
 
         .alertArea {
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
+            display: none;
             width: 583px;
             height: 508px;
             background: url(/Content/images/form-box.png) no-repeat;
-            transform: scale(0);
-            -ms-transform: scale(0);
-            transition: transform 0.3s;
         }
         .alert-box {
             padding: 160px 66px 0;
@@ -151,17 +142,13 @@
             height: 68px;
         }
         .success-msg {
-            position: absolute;
+            position: relative;
             width: 600px;
             height: 299px;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
-            transform: scale(0);
-            -ms-transform: scale(0);
-            transition: transform 0.3s;
+            display: none;
+        }
+        .success-msg img {
+            display: block;
         }
         .success-msg .close-btn {
             position: absolute;
@@ -174,24 +161,13 @@
             color: #333;
             font-weight: bold;
         }
-
-        .mask {
-            position: fixed;
-            display: none;
-            z-index: 999;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-        }
-
     </style>
 </head>
 <body>
 <div class="container">
     <div class="active-box">
         <form id="stockForm1">
-        <input name="code" class="stock-input" type="text" placeholder="请输入股票代码或名称，例：000001">
+        <input name="code" class="stock-input" type="text" placeholder="请输入股票代码" maxlength="6">
         <a class="stock-link" href="javascript: void(0);"></a>
         </form>
     </div>
@@ -200,7 +176,7 @@
 <div class="floatArea">
     <div class="float-box">
         <form id="stockForm2">
-            <input name="code" class="stock-input" type="text" placeholder="请输入股票代码或名称，例：000001">
+            <input name="code" class="stock-input" type="text"  placeholder="请输入股票代码" maxlength="6">
             <a class="stock-link" href="javascript: void(0);"></a>
         </form>
     </div>
@@ -211,117 +187,126 @@
         <form id="phoneForm">
             <h3>你所查询的个股是：<span class="code">601018</span></h3>
             <p>由于在线诊股人数较多，为确保诊股的准确性，因此诊股数据将以短信的形式直接发送到您的手机中请注意查收！</p>
-            <input class="phone-input" type="text" name="phone" placeholder="请输入你的手机号码" autofocus="autofocus">
+            <input class="phone-input" type="text" name="phone" placeholder="请输入你的手机号码" autofocus="autofocus" maxlength="11">
             <a class="phone-link" href="javascript: void(0);"></a>
         </form>
     </div>
-    <div class="success-msg">
-        <span class="close-btn">X</span>
-        <img src="~/Content/images/success-msg.jpg" alt="">
-    </div>
 </div>
-<div class="mask"></div>
+<div class="success-msg">
+    <span class="close-btn">X</span>
+    <img src="~/Content/images/success-msg.jpg" alt="">
+</div>
 </body>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/messages_zh.js"></script>
+<script src="~/Scripts/layer/layer.js"></script>
 <script>
 
-    $(".stock-link").each(function(index, ele){
-        $(ele).on('click', function(){
-            if (!$(this).closest("form").valid()) {
+    $(".stock-link").each(function(index, ele) {
+        $(ele).on('click',
+            function() {
+                var stockCode = $(this).siblings(".stock-input").val();
+                if (!stockCode) {
+                    layer.msg('股票代码不能为空');
+                    $(this).siblings(".stock-input").focus();
+                    return;
+                }
+                if (!isTrueCode(stockCode)) {
+                    layer.msg('股票代码不正确，无法诊断\n请输入6位数的股票代码',
+                        {
+                            time: 3000
+                        });
+                    $(".stock-input").val("");
+                    $(this).siblings(".stock-input").focus();
+                    return;
+                }
+
+                $(".stock-input").val("");
+
+                layer.open({
+                    type: 1,
+                    title: false,
+                    area: '583px',
+                    shade: 0,
+                    shadeClose: true,
+                    content: $("#linkBox")
+                })
+
+                $("#linkBox .code").html(stockCode);
+                $("#linkBox .stock-input").focus();
+            })
+    })
+
+    $(".phone-link").on('click',
+        function() {
+            var phoneNum = $(this).siblings(".phone-input").val();
+
+            // 判断输入是否为空
+            if (!phoneNum) {
+                layer.msg('手机号码不能为空');
+                $(this).siblings(".phone-input").focus();
                 return;
             }
-            var stockCode = $(this).siblings(".stock-input").val();
-            $(".stock-input").val("");
-            $("#linkBox").css({
-                "transform": "scale(1)",
-                "-ms-transform": "scale(1)"
-            });
-            $("#linkBox .code").html(stockCode);
-            $("#linkBox .stock-input").focus();
-            $(".mask").show();
-        })
-    })
-    $(".mask").on('click', function(){
-        $(this).hide();
-        $("#linkBox").css({
-            "transform": "scale(0)",
-            "-ms-transform": "scale(0)"
-        });
-        $(".success-msg").css({
-            "transform": "scale(0)",
-            "-ms-transform": "scale(0)"
-        });
-    })
 
-    $("#stockForm1, #stockForm2").each(function(){
-        $(this).validate({
-            rules: {
-                code: {
-                    required: true,
-                    number: true,
-                    rangelength: [6, 6]
-                }
-            },
-            errorElement: "p",
-            messages: {
-                code: {
-                    required: "请输入股票代码或名称，例：000001",
-                    number: "请输入正确的股票代码或名称",
-                    rangelength: "股票代码长度应为6位"
-                }
-            },
-            debug: true
-        })
-    });
-    $("#phoneForm").validate({
-        rules: {
-            phone: {
-                required: true,
-                isMobile: true
+            // 判断是否是正确的手机号
+            if (!isMobile(phoneNum)) {
+                layer.msg('请正确填写您的手机号码',
+                    {
+                        time: 3000
+                    });
+                $(this).siblings(".phone-input").focus();
+                return;
             }
-        },
-        errorElement: "p",
-        messages: {
-            phone: {
-                required: "请输入你的手机号码",
-                isMobile: "请输入正确的手机号码"
-            }
-        },
-        debug: true
-    });
-    $(".phone-link").on('click', function(){
-        if (!$(this).closest("form").valid()) {
-            return;
-        }
 
-        var codeNum = $("#linkBox .code").html();
-        var phoneNum = $(this).siblings(".phone-input").val();
+            var codeNum = $("#linkBox .code").html();
 
-        $.ajax({
-            url: '@Url.Action("DiagnosisStock")',
+            $.ajax({
+                url: '@Url.Action("DiagnosisStock")',
             type: 'POST',
             data: {phone:phoneNum,code:codeNum},
             dataType: 'json',
-            success:function(data) {
-                data.success
+            beforeSend:function() {
+                layer.load();
+            },
+            success: function (data) {
+                layer.closeAll();
+                if (data.success) {
+                    layer.open({
+                        type: 1,
+                        title: false,
+                        area: '600px',
+                        shade: 0,
+                        shadeClose: true,
+                        closeBtn: 0,
+                        content: $(".success-msg")
+                    });
+                    $(".phone-link").siblings(".phone-input").val("");
+                    $(".success-msg .close-btn").on('click',
+                        function() {
+                            layer.close(layer.index);
+                        });
+
+                } else {
+                    layer.msg(data.message, {
+                        time: 3000
+                    });
+                    $(".phone-link").siblings(".phone-input").focus();
+                }
             }
         });
+        
+    })
 
-        if(true){
-            $(".success-msg").css({
-                "transform": "scale(1)",
-                "-ms-transform": "scale(1)"
-            });
-        }
-    })
-    
-    $(".close-btn").on('click', function(){
-        $(".success-msg").css({
-            "transform": "scale(0)",
-            "-ms-transform": "scale(0)"
-        });
-    })
+    function isTrueCode(code){
+        var reg = /^[0-9]{6}$/;
+        return reg.test(code);
+    }
+
+    function isMobile(phone){
+        var length = phone.length;
+        var reg = /^1[3|4|5|7|8][0-9]{9}$/;
+        return length == 11 && reg.test(phone);
+    }
 </script>
 </html>

@@ -4,7 +4,7 @@
 @using OnTime.DataLayer.Enum
 @using System.Configuration;
 @{
-    List<PageImage> images = Session["images"] as List<PageImage>;
+    List<PageImage> images = ViewBag.images as List<PageImage>;
     Layout = null;
     string RootPath = ViewBag.ResourceRootPath;
 }
