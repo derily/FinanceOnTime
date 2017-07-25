@@ -199,7 +199,20 @@ namespace OnTime.AdminUI.Controllers
            var user= await UserManager.FindByIdAsync(userId);
             if (user != null)
             {
-               var result=  await UserManager.DeleteAsync(user);
+                var result = await UserManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    return Json(new {success = true, message = ""});
+                }
+                else
+                {
+                    return Json(new {success = false, message = string.Join(";", result.Errors)});
+                }
+
+            }
+            else
+            {
+                return Json(new {success = false, message = $"Id为{userId}的用户不存在"});
             }
         }
 

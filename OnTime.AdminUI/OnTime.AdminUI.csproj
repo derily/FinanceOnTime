@@ -192,6 +192,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap-datetimepicker.css" />
     <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-dialog.css" />
     <Content Include="Content\bootstrap-select.css" />
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -355,6 +356,7 @@
     <Content Include="Resource\Images\db08a73796e9a449a5f9d06ed5b20136.jpg" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap-dialog.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -414,6 +416,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Helpers\ExportGridToExcel.ashx" />
+    <Content Include="Content\bootstrap-dialog.less" />
     <None Include="Properties\PublishProfiles\Release.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />

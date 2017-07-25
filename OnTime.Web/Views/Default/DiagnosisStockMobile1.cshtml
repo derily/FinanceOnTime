@@ -123,12 +123,21 @@
             to {bottom: 1.5%;}
         }
     </style>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?db77cf119da0a466ceca05889296ab65";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 <body>
 <div class="container">
     <div class="formArea">
         <form id="stock-form">
-            <input class="input-code" type="text" name="code" placeholder="请输入股票代码" maxlength="6">
+            <input class="input-code" type="text" name="code" placeholder="请输入股票代码或名称">
             <input class="input-phone" type="text" name="phone" placeholder="请输入手机号码" maxlength="11">
             <a class="phone-link" href="javascript: void(0);"></a>
         </form>
@@ -170,7 +179,7 @@
         }
 
         if (!isTrueCode(codeNum)) {
-            layer.msg('股票代码不正确，无法诊断\n请输入6位数的股票代码', {
+            layer.msg('请输入合法的股票代码或名称', {
                 time: 3000
             });
             $('.input-code').val("").focus();
@@ -244,6 +253,9 @@
         //var length = code.length;
         //var reg = /^(((002|000|300|600|601|603)[\d]{3})|60[\d]{4})/;
         //return length == 6 && reg.test(code);
+        if (!Number(code)) {
+            return true;
+        }
         var reg = /^[0-9]{6}$/;
         return reg.test(code);
     }

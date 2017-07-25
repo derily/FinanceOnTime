@@ -85,6 +85,13 @@
         border: none;
         box-shadow: none;
     }
+
+    .loading {
+        position: absolute; top: 0px;bottom: 0; filter: alpha(opacity=60); background-color: #777;     
+        z-index: 1002; left: 0px;     
+        opacity:0.5; -moz-opacity:0.5;
+        display: none;  
+    }
 </style>
 <div id="page-wrapper">
     <div class="row">
@@ -168,7 +175,7 @@
             </div>
         </div>
     </div>
-
+    <div id="loading" class="loading">Loading pages...</div> 
 </div>
 
 <script>
@@ -215,7 +222,11 @@
                     url: '@Url.Action("UploadImage")',
                     type: 'POST',
                     data: formData,
-                    success: function(r) {
+                    beforeSend:function() {
+                       // $('.loading').show();
+                    },
+                    success: function (r) {
+                       // $('.loading').hide();
                         if (r.success) {
                             $('#Path').val(r.path);
                         }
@@ -304,13 +315,13 @@
                 var rowdata = $grid.jqGrid('getRowData', rowId);
                 modal.find('#Id').val(rowdata.Id);
                 modal.find('#Title').val(rowdata.Title);
-                var $Valid = modal.find('#Valid')
-                var bol = rowdata.Valid == 'true';
-                if (bol) {
-                    $Valid.prop('checked', true);
-                } else {
-                    $Valid.prop('checked', false);
-                }
+                //var $Valid = modal.find('#Valid')
+                //var bol = rowdata.Valid == 'true';
+                //if (bol) {
+                //    $Valid.prop('checked', true);
+                //} else {
+                //    $Valid.prop('checked', false);
+                //}
                 $('.selectpicker').selectpicker('val', rowdata.Position);
                 modal.find('.input-group input[type=text]').val(rowdata.Path);
                 $('#img-preview').attr('src', location.origin + rowdata.Path);

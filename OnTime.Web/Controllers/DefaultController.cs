@@ -140,8 +140,8 @@ namespace OnTime.Web.Controllers
 
             try
             {
-                OnTime.Web.MailService.WebServiceSoapClient client = new WebServiceSoapClient();
-                foreach (var user in UserManager.Users)
+                WebServiceSoapClient client = new WebServiceSoapClient();
+                foreach (var user in UserManager.Users.Where(t=>t.Valid==true))//只发送给启用的用户
                 {
                     await client.SendEmalAsync(user.Email, " 您有新客户关注了。", body, "xiaod@lecaijing.com", "Lcj123456");
                 }

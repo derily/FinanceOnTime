@@ -40,6 +40,7 @@ namespace OnTime.AdminUI.Controllers
                
                 db.Entry(img).State = System.Data.Entity.EntityState.Modified;
                 db.Entry(img).Property("Position").IsModified = false;
+                db.Entry(img).Property("Valid").IsModified = false;
             }
             else
             {
